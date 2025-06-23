@@ -29,7 +29,11 @@ class CustomCard extends StatelessWidget {
                 )
               : null,
         ),
-        child: Row(mainAxisSize: MainAxisSize.min, children: children),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: children,
+        ),
       ),
     );
   }
