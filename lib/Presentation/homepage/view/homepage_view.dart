@@ -21,12 +21,7 @@ class HomePageView extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            'assets/background/bg.png',
-            fit: BoxFit.cover,
-            width: SizeConfig.screenWidth,
-            height: SizeConfig.screenHeight,
-          ),
+          background(),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -50,71 +45,84 @@ class HomePageView extends StatelessWidget {
                   ),
                   getScanCard(),
                   VerticalSeparator(),
-                  CustomCard(
-                    children: [
-                      Image.asset(
-                        'assets/images/ic_ball.png',
-                        fit: BoxFit.fitWidth,
-                        width: SizeConfig.safeBlockHorizontal * 7,
-                      ),
-                      HorizontalSeparator(width: 3),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Split Manually',
-                            style: CustomTheme.bodyMedium.copyWith(
-                              color: CustomTheme.textColor,
-                            ),
-                          ),
-                          Text(
-                            'Without OCR',
-                            style: CustomTheme.bodySmall.copyWith(
-                              color: CustomTheme.textColor.withValues(
-                                alpha: 0.5,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  getScanManuallyCard(),
                   VerticalSeparator(),
-                  CustomCard(
-                    children: [
-                      Image.asset(
-                        'assets/images/ic_mic.png',
-                        fit: BoxFit.fitWidth,
-                        width: SizeConfig.safeBlockHorizontal * 7,
-                      ),
-                      HorizontalSeparator(width: 1),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Split by Voice',
-                            style: CustomTheme.bodyMedium.copyWith(
-                              color: CustomTheme.textColor,
-                            ),
-                          ),
-                          Text(
-                            'Split it using your voice',
-                            style: CustomTheme.bodySmall.copyWith(
-                              color: CustomTheme.textColor.withValues(
-                                alpha: 0.5,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  getScanByVoiceCard(),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  CustomCard getScanByVoiceCard() {
+    return CustomCard(
+      children: [
+        Image.asset(
+          'assets/images/ic_mic.png',
+          fit: BoxFit.fitWidth,
+          width: SizeConfig.safeBlockHorizontal * 7,
+        ),
+        HorizontalSeparator(width: 1),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Split by Voice',
+              style: CustomTheme.bodyMedium.copyWith(
+                color: CustomTheme.textColor,
+              ),
+            ),
+            Text(
+              'Split it using your voice',
+              style: CustomTheme.bodySmall.copyWith(
+                color: CustomTheme.textColor.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  CustomCard getScanManuallyCard() {
+    return CustomCard(
+      children: [
+        Image.asset(
+          'assets/images/ic_ball.png',
+          fit: BoxFit.fitWidth,
+          width: SizeConfig.safeBlockHorizontal * 7,
+        ),
+        HorizontalSeparator(width: 3),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Split Manually',
+              style: CustomTheme.bodyMedium.copyWith(
+                color: CustomTheme.textColor,
+              ),
+            ),
+            Text(
+              'Without OCR',
+              style: CustomTheme.bodySmall.copyWith(
+                color: CustomTheme.textColor.withValues(alpha: 0.5),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Image background() {
+    return Image.asset(
+      'assets/background/bg.png',
+      fit: BoxFit.cover,
+      width: SizeConfig.screenWidth,
+      height: SizeConfig.screenHeight,
     );
   }
 
