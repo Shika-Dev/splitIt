@@ -45,9 +45,16 @@ class HomePageView extends StatelessWidget {
                   ),
                   getScanCard(),
                   VerticalSeparator(),
-                  getScanManuallyCard(),
+                  IntrinsicHeight(
+                    child: Row(
+                      children: [
+                        Flexible(child: getScanManuallyCard()),
+                        HorizontalSeparator(width: 1),
+                        Flexible(child: getScanByVoiceCard()),
+                      ],
+                    ),
+                  ),
                   VerticalSeparator(),
-                  getScanByVoiceCard(),
                 ],
               ),
             ),
@@ -63,25 +70,31 @@ class HomePageView extends StatelessWidget {
         Image.asset(
           'assets/images/ic_mic.png',
           fit: BoxFit.fitWidth,
-          width: SizeConfig.safeBlockHorizontal * 7,
+          width: SizeConfig.safeBlockHorizontal * 5,
         ),
-        HorizontalSeparator(width: 1),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Split by Voice',
-              style: CustomTheme.bodyMedium.copyWith(
-                color: CustomTheme.textColor,
+        HorizontalSeparator(width: 2),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Split by Voice',
+                style: CustomTheme.bodySmall.copyWith(
+                  color: CustomTheme.textColor,
+                ),
               ),
-            ),
-            Text(
-              'Split it using your voice',
-              style: CustomTheme.bodySmall.copyWith(
-                color: CustomTheme.textColor.withValues(alpha: 0.5),
+              Text(
+                'Split it using your voice',
+                style: CustomTheme.captionLarge.copyWith(
+                  color: CustomTheme.textColor.withValues(alpha: 0.5),
+                ),
+                softWrap: true,
+                overflow: TextOverflow.visible,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -93,21 +106,22 @@ class HomePageView extends StatelessWidget {
         Image.asset(
           'assets/images/ic_ball.png',
           fit: BoxFit.fitWidth,
-          width: SizeConfig.safeBlockHorizontal * 7,
+          width: SizeConfig.safeBlockHorizontal * 5,
         ),
-        HorizontalSeparator(width: 3),
+        HorizontalSeparator(width: 2),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Split Manually',
-              style: CustomTheme.bodyMedium.copyWith(
+              style: CustomTheme.bodySmall.copyWith(
                 color: CustomTheme.textColor,
               ),
             ),
             Text(
               'Without OCR',
-              style: CustomTheme.bodySmall.copyWith(
+              style: CustomTheme.captionLarge.copyWith(
                 color: CustomTheme.textColor.withValues(alpha: 0.5),
               ),
             ),
@@ -136,7 +150,9 @@ class HomePageView extends StatelessWidget {
           fit: BoxFit.fitWidth,
           width: SizeConfig.safeBlockHorizontal * 10,
         ),
+        HorizontalSeparator(width: 3),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Scan your bill',
