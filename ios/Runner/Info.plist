@@ -45,5 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app need to access your gallery to pick bill image</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app need to access your camera to capture bill image</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app need to access your microphone to use the Split by Voice function</string>
 </dict>
 </plist>

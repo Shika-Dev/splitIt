@@ -1,5 +1,13 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mlkit_commons/google_mlkit_commons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:split_it/Presentation/homepage/bloc/homepage_bloc.dart';
 import 'package:split_it/Resources/Theme/theme.dart';
+import 'package:split_it/Resources/Widgets/camera.dart';
 import 'package:split_it/Resources/Widgets/card.dart';
 import 'package:split_it/Resources/Widgets/separator.dart';
 import 'package:split_it/Resources/utils/size_config.dart';
@@ -9,7 +17,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomePageView();
+    return BlocProvider(
+      create: (context) => HomepageBloc(),
+      child: HomePageView(),
+    );
   }
 }
 
@@ -43,7 +54,7 @@ class HomePageView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  getScanCard(),
+                  getScanCard(context),
                   VerticalSeparator(),
                   IntrinsicHeight(
                     child: Row(
@@ -140,10 +151,15 @@ class HomePageView extends StatelessWidget {
     );
   }
 
-  CustomCard getScanCard() {
+  CustomCard getScanCard(BuildContext context) {
     return CustomCard(
       withBorder: true,
-      onTap: () {},
+      onTap: () {
+        showBottomSheet(
+          context: context,
+          builder: (context) => getScanSheet(context),
+        );
+      },
       children: [
         Image.asset(
           'assets/images/ic_bill.png',
@@ -175,6 +191,99 @@ class HomePageView extends StatelessWidget {
           width: SizeConfig.safeBlockHorizontal * 5,
         ),
       ],
+    );
+  }
+
+  Widget getScanSheet(BuildContext context) {
+    return BottomSheet(
+      backgroundColor: CustomTheme.backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(16)),
+      ),
+      onClosing: () {},
+      builder: (_) => Column(
+        children: [
+          CustomCard(
+            onTap: () async {
+              XFile? image = await ImagePicker().pickImage(
+                source: ImageSource.camera,
+              );
+              if (image != null) {
+                InputImage inputImage = InputImage.fromFile(File(image.path));
+              }
+            },
+            children: [
+              Text(
+                "📷",
+                style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 10),
+              ),
+              HorizontalSeparator(width: 3),
+              Column(
+                children: [
+                  Text(
+                    "Use your Camera",
+                    style: CustomTheme.bodyMedium.copyWith(
+                      color: CustomTheme.textColor,
+                    ),
+                  ),
+                  Text(
+                    "Scan bill/receipt using your camera",
+                    style: CustomTheme.bodySmall.copyWith(
+                      color: CustomTheme.textColor.withValues(alpha: .5),
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Image.asset(
+                "assets/images/ic_arrow.png",
+                fit: BoxFit.fitWidth,
+                width: SizeConfig.safeBlockHorizontal * 5,
+              ),
+            ],
+          ),
+          VerticalSeparator(height: 2),
+          CustomCard(
+            onTap: () async {
+              XFile? image = await ImagePicker().pickImage(
+                source: ImageSource.gallery,
+              );
+              if (image != null) {
+                InputImage inputImage = InputImage.fromFile(File(image.path));
+              }
+            },
+            children: [
+              Text(
+                "🖼️",
+                style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 10),
+              ),
+              HorizontalSeparator(width: 3),
+              Column(
+                children: [
+                  Text(
+                    "Pick from Gallery",
+                    style: CustomTheme.bodyMedium.copyWith(
+                      color: CustomTheme.textColor,
+                    ),
+                  ),
+                  Text(
+                    "Scan bill/receipt from your gallery",
+                    style: CustomTheme.bodySmall.copyWith(
+                      color: CustomTheme.textColor.withValues(alpha: .5),
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Image.asset(
+                "assets/images/ic_arrow.png",
+                fit: BoxFit.fitWidth,
+                width: SizeConfig.safeBlockHorizontal * 5,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
