@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:split_it/Presentation/homepage/view/homepage_view.dart';
-import 'package:split_it/Resources/utils/size_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:split_it/Core/App/app.dart';
+import 'package:split_it/Core/DI/bloc_module.dart';
+import 'package:split_it/Core/DI/domain_module.dart';
+import 'package:split_it/Core/DI/repository_module.dart';
+import 'package:split_it/Core/DI/remote_module.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    return MaterialApp(title: 'SplitIt', home: const HomePage());
-  }
+void main() async {
+  await dotenv.load();
+  RemoteModule.provide();
+  RepositoryModule.provide();
+  DomainModule.provide();
+  BlocModule.provide();
+  runApp(const SplitBillApp());
 }

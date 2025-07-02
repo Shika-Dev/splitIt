@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:split_it/Presentation/homepage/bloc/homepage_bloc.dart';
+import 'package:split_it/Presentation/scan_page/view/scan_page_view.dart';
 import 'package:split_it/Resources/Theme/theme.dart';
-import 'package:split_it/Resources/Widgets/camera.dart';
 import 'package:split_it/Resources/Widgets/card.dart';
 import 'package:split_it/Resources/Widgets/separator.dart';
 import 'package:split_it/Resources/utils/size_config.dart';
@@ -155,9 +153,13 @@ class HomePageView extends StatelessWidget {
     return CustomCard(
       withBorder: true,
       onTap: () {
-        showBottomSheet(
+        showModalBottomSheet(
           context: context,
-          builder: (context) => getScanSheet(context),
+          backgroundColor: CustomTheme.backgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          builder: (_) => getScanSheet(context),
         );
       },
       children: [
@@ -195,13 +197,10 @@ class HomePageView extends StatelessWidget {
   }
 
   Widget getScanSheet(BuildContext context) {
-    return BottomSheet(
-      backgroundColor: CustomTheme.backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.vertical(top: Radius.circular(16)),
-      ),
-      onClosing: () {},
-      builder: (_) => Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           CustomCard(
             onTap: () async {
@@ -209,26 +208,33 @@ class HomePageView extends StatelessWidget {
                 source: ImageSource.camera,
               );
               if (image != null) {
-                InputImage inputImage = InputImage.fromFile(File(image.path));
+                if (!context.mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ScanPage(image: File(image.path)),
+                  ),
+                );
               }
             },
             children: [
               Text(
                 "📷",
-                style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 10),
+                style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 7),
               ),
-              HorizontalSeparator(width: 3),
+              HorizontalSeparator(width: 5),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Use your Camera",
-                    style: CustomTheme.bodyMedium.copyWith(
+                    style: CustomTheme.bodySmall.copyWith(
                       color: CustomTheme.textColor,
                     ),
                   ),
                   Text(
                     "Scan bill/receipt using your camera",
-                    style: CustomTheme.bodySmall.copyWith(
+                    style: CustomTheme.captionLarge.copyWith(
                       color: CustomTheme.textColor.withValues(alpha: .5),
                     ),
                   ),
@@ -249,26 +255,34 @@ class HomePageView extends StatelessWidget {
                 source: ImageSource.gallery,
               );
               if (image != null) {
-                InputImage inputImage = InputImage.fromFile(File(image.path));
+                if (!context.mounted) return;
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ScanPage(image: File(image.path)),
+                  ),
+                );
               }
             },
             children: [
               Text(
                 "🖼️",
-                style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 10),
+                style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 7),
               ),
-              HorizontalSeparator(width: 3),
+              HorizontalSeparator(width: 5),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Pick from Gallery",
-                    style: CustomTheme.bodyMedium.copyWith(
+                    style: CustomTheme.bodySmall.copyWith(
                       color: CustomTheme.textColor,
                     ),
                   ),
                   Text(
                     "Scan bill/receipt from your gallery",
-                    style: CustomTheme.bodySmall.copyWith(
+                    style: CustomTheme.captionLarge.copyWith(
                       color: CustomTheme.textColor.withValues(alpha: .5),
                     ),
                   ),

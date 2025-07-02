@@ -10,16 +10,19 @@ class CustomTheme {
   static TextStyle h1 = GoogleFonts.alata(
     fontSize: 24,
     fontWeight: FontWeight.bold,
+    color: textColor,
   );
 
   static TextStyle h2 = GoogleFonts.alata(
     fontSize: 20,
     fontWeight: FontWeight.bold,
+    color: textColor,
   );
 
   static TextStyle h3 = GoogleFonts.alata(
     fontSize: 18,
     fontWeight: FontWeight.bold,
+    color: textColor,
   );
 
   static TextStyle bodyLarge = GoogleFonts.alata(
@@ -30,25 +33,30 @@ class CustomTheme {
   static TextStyle bodyMedium = GoogleFonts.alata(
     fontSize: 16,
     fontWeight: FontWeight.w400,
+    color: textColor,
   );
 
   static TextStyle bodySmall = GoogleFonts.alata(
     fontSize: 14,
     fontWeight: FontWeight.w400,
+    color: textColor,
   );
 
   static TextStyle captionLarge = GoogleFonts.alata(
     fontSize: 12,
     fontWeight: FontWeight.w400,
+    color: textColor,
   );
 
   static TextStyle captionMedium = GoogleFonts.alata(
     fontSize: 10,
     fontWeight: FontWeight.w400,
+    color: textColor,
   );
 
   static TextStyle captionSmall = GoogleFonts.alata(
     fontSize: 8,
     fontWeight: FontWeight.w400,
+    color: textColor,
   );
 }
