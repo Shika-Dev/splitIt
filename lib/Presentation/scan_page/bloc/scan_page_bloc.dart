@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
@@ -13,6 +14,8 @@ class ScanPageBloc extends Bloc<ScanPageEvent, ScanPageState> {
   final ScanBillUsecase usecase;
   ScanPageBloc({required this.usecase}) : super(ScanPageState()) {
     on<InitScanPage>(_initScanPage);
+    on<EditScanPage>(_editScanPage);
+    on<EditScanPageDispose>(_editScanPageDispose);
   }
 
   Future<void> _initScanPage(
@@ -44,5 +47,69 @@ class ScanPageBloc extends Bloc<ScanPageEvent, ScanPageState> {
     } catch (e) {
       emit(state.copyWith(status: ScanPageStatus.failed, errorMessage: '$e'));
     }
+  }
+
+  Future<void> _editScanPage(
+    EditScanPage event,
+    Emitter<ScanPageState> emit,
+  ) async {
+    if (!state.isEdit) {
+      List<TextEditingController> listController = List.generate(
+        (state.billItem?.items?.length ?? 0) * 3 + 5,
+        (index) => TextEditingController(),
+      );
+      var index = 0;
+      state.billItem?.items?.forEach((element) {
+        listController[index].text = element.name;
+        listController[index + 1].text = element.quantity.toString();
+        listController[index + 2].text = element.price.toString();
+        index += 3;
+      });
+      listController[index].text = state.billItem?.subtotal.toString() ?? '0';
+      listController[index + 1].text =
+          state.billItem?.service.toString() ?? '0';
+      listController[index + 2].text = state.billItem?.tax.toString() ?? '0';
+      listController[index + 3].text =
+          state.billItem?.discount.toString() ?? '0';
+      listController[index + 4].text = state.billItem?.total.toString() ?? '0';
+
+      emit(state.copyWith(isEdit: true, controllers: listController));
+    }
+  }
+
+  Future<void> _editScanPageDispose(
+    EditScanPageDispose event,
+    Emitter<ScanPageState> emit,
+  ) async {
+    // Reconstruct BillItemModel from controllers
+    final controllers = state.controllers;
+    final items = <BillItem>[];
+    int itemCount = (controllers.length - 5) ~/ 3;
+    for (int i = 0; i < itemCount; i++) {
+      final name = controllers[i * 3].text;
+      final quantity = num.tryParse(controllers[i * 3 + 1].text) ?? 0;
+      final price = num.tryParse(controllers[i * 3 + 2].text) ?? 0;
+      items.add(BillItem(name: name, quantity: quantity, price: price));
+    }
+    final subtotal = num.tryParse(controllers[itemCount * 3].text) ?? 0;
+    final service = num.tryParse(controllers[itemCount * 3 + 1].text) ?? 0;
+    final tax = num.tryParse(controllers[itemCount * 3 + 2].text) ?? 0;
+    final discount = num.tryParse(controllers[itemCount * 3 + 3].text) ?? 0;
+    final total = num.tryParse(controllers[itemCount * 3 + 4].text) ?? 0;
+    final billName = state.billItem?.billName ?? '';
+    final updatedBillItem = BillItemModel(
+      items: items,
+      subtotal: subtotal,
+      service: service,
+      tax: tax,
+      discount: discount,
+      total: total,
+      billName: billName,
+    );
+    emit(state.copyWith(isEdit: false, billItem: updatedBillItem));
+    for (var element in state.controllers) {
+      element.dispose();
+    }
+    emit(state.copyWith(status: ScanPageStatus.finish));
   }
 }

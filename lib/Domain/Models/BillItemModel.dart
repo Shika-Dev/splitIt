@@ -28,4 +28,11 @@ class BillItem {
     required this.quantity,
     required this.price,
   });
+
+  BillItem copyWith({String? name, String? quantity, String? price}) =>
+      BillItem(
+        name: name ?? this.name,
+        quantity: num.tryParse(quantity ?? '') ?? this.quantity,
+        price: num.tryParse(price ?? '') ?? this.price,
+      );
 }

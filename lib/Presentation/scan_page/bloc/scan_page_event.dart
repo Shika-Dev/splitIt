@@ -10,3 +10,7 @@ class InitScanPage extends ScanPageEvent {
 
   InitScanPage({required this.image});
 }
+
+class EditScanPage extends ScanPageEvent {}
+
+class EditScanPageDispose extends ScanPageEvent {}

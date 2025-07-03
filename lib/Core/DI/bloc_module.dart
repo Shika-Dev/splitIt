@@ -5,8 +5,8 @@ import 'package:split_it/Domain/Usecases/scan_bill_usecase.dart';
 class BlocModule {
   static void provide() {
     GetIt getIt = GetIt.instance;
-    getIt.registerSingleton<ScanPageBloc>(
-      ScanPageBloc(usecase: GetIt.instance<ScanBillUsecase>()),
+    getIt.registerFactory<ScanPageBloc>(
+      () => ScanPageBloc(usecase: GetIt.instance<ScanBillUsecase>()),
     );
   }
 }
