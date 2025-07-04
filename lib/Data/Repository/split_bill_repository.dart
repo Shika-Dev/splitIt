@@ -56,10 +56,10 @@ class SplitBillRepositoryImpl extends AbsSplitBillRepository {
   }
 
   @override
-  Future<void> createSummary(SummaryModel model) async {
+  Future<String> createSummary(SummaryModel model) async {
     try {
       SummaryEntity entity = Mapper.toSummaryEntity(model);
-      await localDatasource.createSummary(entity);
+      return await localDatasource.createSummary(entity);
     } catch (e) {
       rethrow;
     }

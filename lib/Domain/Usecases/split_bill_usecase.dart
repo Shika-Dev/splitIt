@@ -4,5 +4,5 @@ import 'package:split_it/Domain/Models/summary_model.dart';
 abstract class SplitBillUsecase {
   Future<SplitBillModel> getBillDetail(String id);
   Future<void> deleteBill(String id);
-  Future<void> createSummary(SummaryModel model);
+  Future<String> createSummary(SummaryModel model);
 }

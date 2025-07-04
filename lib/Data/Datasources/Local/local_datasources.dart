@@ -31,15 +31,15 @@ class LocalDatasources {
   Future<void> deleteBill(String id) async {
     try {
       await splitBillBox.delete(id);
-      print('Box Items: ${splitBillBox.values.length}');
     } catch (e) {
       throw Exception('Failed to delete the Bill');
     }
   }
 
-  Future<void> createSummary(SummaryEntity summary) async {
+  Future<String> createSummary(SummaryEntity summary) async {
     try {
       await summaryBox.add(summary);
+      return summary.id;
     } catch (e) {
       throw Exception(e);
     }

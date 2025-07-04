@@ -15,6 +15,6 @@ class SplitBillInteractor extends SplitBillUsecase {
   Future<void> deleteBill(String id) => repository.deleteBill(id);
 
   @override
-  Future<void> createSummary(SummaryModel model) =>
+  Future<String> createSummary(SummaryModel model) =>
       repository.createSummary(model);
 }

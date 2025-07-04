@@ -7,12 +7,15 @@ part 'summary_entity.g.dart';
 @HiveType(typeId: 5)
 class SummaryEntity {
   SummaryEntity({
+    required this.id,
     required this.billName,
     required this.userList,
     required this.summaryList,
   });
 
   @HiveField(0)
+  String id;
+  @HiveField(1)
   String billName;
 
   @HiveField(2)

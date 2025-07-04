@@ -7,5 +7,5 @@ abstract class AbsSplitBillRepository {
   Future<String> createSplitBillEntity(BillItemModel billItem);
   Future<SplitBillModel> getBillDetail(String id);
   Future<void> deleteBill(String id);
-  Future<void> createSummary(SummaryModel model);
+  Future<String> createSummary(SummaryModel model);
 }

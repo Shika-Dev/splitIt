@@ -101,6 +101,7 @@ class Mapper {
   static SummaryEntity toSummaryEntity(SummaryModel model) {
     try {
       return SummaryEntity(
+        id: Uuid().v4(),
         billName: model.billName,
         userList: model.userList
             .map((e) => UserEntity(name: e.name, image: e.image, id: e.id))
