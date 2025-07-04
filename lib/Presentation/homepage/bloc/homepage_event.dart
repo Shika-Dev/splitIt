@@ -6,3 +6,7 @@ sealed class HomepageEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class HomepageInit extends HomepageEvent {}
+
+class HomepageDispose extends HomepageEvent {}

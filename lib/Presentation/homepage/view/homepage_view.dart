@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:split_it/Presentation/homepage/bloc/homepage_bloc.dart';
 import 'package:split_it/Presentation/scan_page/view/scan_page_view.dart';
+import 'package:split_it/Presentation/summary_page/view/summary_page_view.dart';
 import 'package:split_it/Resources/Theme/theme.dart';
 import 'package:split_it/Resources/Widgets/card.dart';
 import 'package:split_it/Resources/Widgets/separator.dart';
@@ -16,7 +18,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomepageBloc(),
+      create: (context) => GetIt.I<HomepageBloc>()..add(HomepageInit()),
       child: HomePageView(),
     );
   }
@@ -35,11 +37,14 @@ class HomePageView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/images/logo.png',
-                    fit: BoxFit.fitWidth,
-                    width: SizeConfig.safeBlockHorizontal * 20,
+                  Center(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.fitWidth,
+                      width: SizeConfig.safeBlockHorizontal * 20,
+                    ),
                   ),
                   VerticalSeparator(height: 2),
                   Row(
@@ -63,13 +68,69 @@ class HomePageView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  VerticalSeparator(),
+                  VerticalSeparator(height: 3),
+                  Text('Histories', style: CustomTheme.bodyMedium),
+                  VerticalSeparator(height: 1),
+                  BlocBuilder<HomepageBloc, HomepageState>(
+                    builder: (context, state) {
+                      return Expanded(
+                        child: ListView.separated(
+                          itemBuilder: (_, index) =>
+                              getHistoryListItem(context, state, index),
+                          separatorBuilder: (_, __) =>
+                              VerticalSeparator(height: 2),
+                          itemCount: state.summaries.length,
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  CustomCard getHistoryListItem(
+    BuildContext context,
+    HomepageState state,
+    int index,
+  ) {
+    return CustomCard(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => SummaryPage(id: state.summaries[index].id),
+        ),
+      ),
+      children: [
+        SizedBox(
+          width: SizeConfig.safeBlockHorizontal * 70,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                state.summaries[index].billName,
+                style: CustomTheme.bodyMedium,
+              ),
+              Text(
+                'You and ${state.summaries[index].userList.length - 1} others',
+                style: CustomTheme.captionLarge.copyWith(
+                  color: CustomTheme.textColor.withValues(alpha: .67),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Spacer(),
+        Image.asset(
+          'assets/images/ic_arrow.png',
+          fit: BoxFit.fitWidth,
+          width: SizeConfig.safeBlockHorizontal * 5,
+        ),
+      ],
     );
   }
 

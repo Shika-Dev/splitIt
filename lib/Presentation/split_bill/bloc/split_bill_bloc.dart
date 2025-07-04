@@ -213,13 +213,14 @@ class SplitBillBloc extends Bloc<SplitBillEvent, SplitBillState> {
           )
           .toList();
       final summary = SummaryModel(
+        id: '',
         billName: model.billModel.billName,
         userList: users,
         summaryList: summaryList,
       );
       final id = await usecase.createSummary(summary);
       usecase.deleteBill(state.model?.id ?? '');
-      print(id);
+
       emit(state.copyWith(status: SplitBillStatus.finish, id: id));
     } catch (e) {
       emit(state.copyWith(status: SplitBillStatus.failed, errorMessage: '$e'));

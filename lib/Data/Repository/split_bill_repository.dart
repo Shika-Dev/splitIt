@@ -74,4 +74,14 @@ class SplitBillRepositoryImpl extends AbsSplitBillRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<List<SummaryModel>> getAllSummary() async {
+    try {
+      final entities = await localDatasource.getAllSummary();
+      return Mapper.toListOfSummaryModel(entities);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

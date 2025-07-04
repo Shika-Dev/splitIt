@@ -57,4 +57,13 @@ class LocalDatasources {
       throw Exception(e);
     }
   }
+
+  Future<List<SummaryEntity>> getAllSummary() async {
+    try {
+      final entities = summaryBox.values.toList();
+      return entities;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

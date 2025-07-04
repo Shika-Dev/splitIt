@@ -9,4 +9,5 @@ abstract class AbsSplitBillRepository {
   Future<void> deleteBill(String id);
   Future<String> createSummary(SummaryModel model);
   Future<SummaryModel> getSummary(String id);
+  Future<List<SummaryModel>> getAllSummary();
 }

@@ -124,6 +124,7 @@ class Mapper {
   static SummaryModel toSummaryModel(SummaryEntity entity) {
     try {
       return SummaryModel(
+        id: entity.id,
         billName: entity.billName,
         userList: entity.userList
             .map((e) => UserModel(id: e.id, name: e.name, image: e.image))
@@ -138,6 +139,31 @@ class Mapper {
             )
             .toList(),
       );
+    } catch (e) {
+      throw Exception('Something went wrong when mapping the data');
+    }
+  }
+
+  static List<SummaryModel> toListOfSummaryModel(List<SummaryEntity> entities) {
+    try {
+      return entities.map((entity) {
+        return SummaryModel(
+          id: entity.id,
+          billName: entity.billName,
+          userList: entity.userList
+              .map((e) => UserModel(id: e.id, name: e.name, image: e.image))
+              .toList(),
+          summaryList: entity.summaryList
+              .map(
+                (e) => SummaryItemModel(
+                  userId: e.userId,
+                  totalOwned: e.totalOwned,
+                  items: e.items,
+                ),
+              )
+              .toList(),
+        );
+      }).toList();
     } catch (e) {
       throw Exception('Something went wrong when mapping the data');
     }
