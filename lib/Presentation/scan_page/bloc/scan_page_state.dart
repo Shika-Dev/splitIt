@@ -7,9 +7,9 @@ class ScanPageState extends Equatable {
     this.status = ScanPageStatus.initial,
     this.billItem,
     this.errorMessage,
-    this.warning,
     this.controllers = const [],
     this.isEdit = false,
+    this.id = '',
   });
 
   final ScanPageStatus status;
@@ -17,7 +17,7 @@ class ScanPageState extends Equatable {
   final bool isEdit;
   final List<TextEditingController> controllers;
   final String? errorMessage;
-  final String? warning;
+  final String id;
 
   ScanPageState copyWith({
     ScanPageStatus? status,
@@ -25,7 +25,7 @@ class ScanPageState extends Equatable {
     bool? isEdit,
     List<TextEditingController>? controllers,
     String? errorMessage,
-    String? warning,
+    String? id,
   }) {
     return ScanPageState(
       status: status ?? this.status,
@@ -33,7 +33,7 @@ class ScanPageState extends Equatable {
       isEdit: isEdit ?? this.isEdit,
       controllers: controllers ?? this.controllers,
       errorMessage: errorMessage ?? this.errorMessage,
-      warning: warning ?? this.warning,
+      id: id ?? this.id,
     );
   }
 
@@ -44,6 +44,6 @@ class ScanPageState extends Equatable {
     isEdit,
     controllers,
     errorMessage,
-    warning,
+    id,
   ];
 }

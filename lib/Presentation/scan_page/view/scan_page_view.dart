@@ -41,9 +41,7 @@ class ScanPageView extends StatelessWidget {
                 state.billItem != null) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => SplitBillPage(billItemModel: state.billItem!),
-                ),
+                MaterialPageRoute(builder: (_) => SplitBillPage(id: state.id)),
               );
             }
           },
