@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:split_it/Presentation/homepage/view/homepage_view.dart';
 import 'package:split_it/Presentation/split_bill/bloc/split_bill_bloc.dart';
+import 'package:split_it/Presentation/summary_page/view/summary_page_view.dart';
 import 'package:split_it/Resources/Theme/theme.dart';
 import 'package:split_it/Resources/Widgets/button.dart';
 import 'package:split_it/Resources/Widgets/separator.dart';
@@ -48,11 +49,19 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
         child: BlocConsumer<SplitBillBloc, SplitBillState>(
           listener: (context, state) {
             if (state.status == SplitBillStatus.finish) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => HomePage()),
-                (route) => false,
-              );
+              if (state.id == '') {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => HomePage()),
+                  (route) => false,
+                );
+              } else {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => SummaryPage(id: state.id)),
+                  (route) => false,
+                );
+              }
             }
           },
           builder: (context, state) {

@@ -9,6 +9,7 @@ class SplitBillState extends Equatable {
     this.selectedUser,
     this.errorMessage,
     this.id = '',
+    this.isDispose = false,
   });
 
   final SplitBillStatus status;
@@ -16,6 +17,7 @@ class SplitBillState extends Equatable {
   final String? errorMessage;
   final UserModel? selectedUser;
   final String id;
+  final bool isDispose;
 
   SplitBillState copyWith({
     SplitBillStatus? status,
@@ -23,6 +25,7 @@ class SplitBillState extends Equatable {
     UserModel? selectedUser,
     String? errorMessage,
     String? id,
+    bool? isDispose,
   }) {
     return SplitBillState(
       status: status ?? this.status,
@@ -30,9 +33,17 @@ class SplitBillState extends Equatable {
       selectedUser: selectedUser ?? this.selectedUser,
       errorMessage: errorMessage ?? this.errorMessage,
       id: id ?? this.id,
+      isDispose: isDispose ?? this.isDispose,
     );
   }
 
   @override
-  List<Object?> get props => [status, model, selectedUser, errorMessage, id];
+  List<Object?> get props => [
+    status,
+    model,
+    selectedUser,
+    errorMessage,
+    id,
+    isDispose,
+  ];
 }

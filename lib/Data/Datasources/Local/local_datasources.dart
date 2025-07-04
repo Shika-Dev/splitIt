@@ -38,8 +38,21 @@ class LocalDatasources {
 
   Future<String> createSummary(SummaryEntity summary) async {
     try {
-      await summaryBox.add(summary);
+      await summaryBox.put(summary.id, summary);
       return summary.id;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<SummaryEntity> getSummary(String id) async {
+    try {
+      final entity = summaryBox.get(id);
+      if (entity != null) {
+        return entity;
+      } else {
+        throw Exception("Summary not found");
+      }
     } catch (e) {
       throw Exception(e);
     }

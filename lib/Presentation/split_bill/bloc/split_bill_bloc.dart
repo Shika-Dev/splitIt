@@ -50,7 +50,7 @@ class SplitBillBloc extends Bloc<SplitBillEvent, SplitBillState> {
       usecase.deleteBill(state.model?.id ?? '');
       emit(state.copyWith(status: SplitBillStatus.finish));
     } catch (e) {
-      print(e);
+      emit(state.copyWith(status: SplitBillStatus.failed, errorMessage: '$e'));
     }
   }
 
@@ -218,6 +218,8 @@ class SplitBillBloc extends Bloc<SplitBillEvent, SplitBillState> {
         summaryList: summaryList,
       );
       final id = await usecase.createSummary(summary);
+      usecase.deleteBill(state.model?.id ?? '');
+      print(id);
       emit(state.copyWith(status: SplitBillStatus.finish, id: id));
     } catch (e) {
       emit(state.copyWith(status: SplitBillStatus.failed, errorMessage: '$e'));

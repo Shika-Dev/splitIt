@@ -120,4 +120,26 @@ class Mapper {
       throw Exception('Something went wrong when mapping the data');
     }
   }
+
+  static SummaryModel toSummaryModel(SummaryEntity entity) {
+    try {
+      return SummaryModel(
+        billName: entity.billName,
+        userList: entity.userList
+            .map((e) => UserModel(id: e.id, name: e.name, image: e.image))
+            .toList(),
+        summaryList: entity.summaryList
+            .map(
+              (e) => SummaryItemModel(
+                userId: e.userId,
+                totalOwned: e.totalOwned,
+                items: e.items,
+              ),
+            )
+            .toList(),
+      );
+    } catch (e) {
+      throw Exception('Something went wrong when mapping the data');
+    }
+  }
 }
