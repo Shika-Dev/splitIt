@@ -66,4 +66,12 @@ class LocalDatasources {
       throw Exception(e);
     }
   }
+
+  Future<void> deleteSummary(String id) async {
+    try {
+      await summaryBox.delete(id);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

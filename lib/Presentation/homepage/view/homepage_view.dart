@@ -71,18 +71,37 @@ class HomePageView extends StatelessWidget {
                   VerticalSeparator(height: 3),
                   Text('Histories', style: CustomTheme.bodyMedium),
                   VerticalSeparator(height: 1),
-                  BlocBuilder<HomepageBloc, HomepageState>(
-                    builder: (context, state) {
-                      return Expanded(
-                        child: ListView.separated(
-                          itemBuilder: (_, index) =>
-                              getHistoryListItem(context, state, index),
+                  Expanded(
+                    child: BlocBuilder<HomepageBloc, HomepageState>(
+                      builder: (context, state) {
+                        return ListView.separated(
+                          itemBuilder: (_, index) {
+                            final summary = state.summaries[index];
+                            return Dismissible(
+                              key: ValueKey(summary.id),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                alignment: Alignment.centerRight,
+                                color: Colors.red,
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.delete, color: Colors.white),
+                              ),
+                              confirmDismiss: (direction) async {
+                                context.read<HomepageBloc>().add(
+                                  DeleteSummary(id: summary.id),
+                                );
+
+                                return true;
+                              },
+                              child: getHistoryListItem(context, state, index),
+                            );
+                          },
                           separatorBuilder: (_, __) =>
                               VerticalSeparator(height: 2),
                           itemCount: state.summaries.length,
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

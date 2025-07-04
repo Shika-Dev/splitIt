@@ -8,4 +8,7 @@ class HomepageInteractor extends HomepageUsecase {
 
   @override
   Future<List<SummaryModel>> getAllSummary() => repository.getAllSummary();
+
+  @override
+  Future<void> deleteSummary(String id) => repository.deleteSummary(id);
 }

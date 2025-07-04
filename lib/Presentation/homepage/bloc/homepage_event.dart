@@ -10,3 +10,12 @@ sealed class HomepageEvent extends Equatable {
 class HomepageInit extends HomepageEvent {}
 
 class HomepageDispose extends HomepageEvent {}
+
+class DeleteSummary extends HomepageEvent {
+  final String id;
+
+  const DeleteSummary({required this.id});
+
+  @override
+  List<Object> get props => [id];
+}

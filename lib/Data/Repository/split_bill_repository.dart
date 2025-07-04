@@ -84,4 +84,13 @@ class SplitBillRepositoryImpl extends AbsSplitBillRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteSummary(String id) async {
+    try {
+      await localDatasource.deleteSummary(id);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

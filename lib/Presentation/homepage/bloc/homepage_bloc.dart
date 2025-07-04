@@ -11,6 +11,7 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
   HomepageBloc({required this.usecase}) : super(HomepageState()) {
     on<HomepageInit>(_homepageInitial);
     on<HomepageDispose>(_homepageDispose);
+    on<DeleteSummary>(_deleteSummary);
   }
 
   Future<void> _homepageInitial(
@@ -33,5 +34,21 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
     Emitter<HomepageState> emit,
   ) async {
     emit(state.copyWith(status: HomepageStatus.finish));
+  }
+
+  Future<void> _deleteSummary(
+    DeleteSummary event,
+    Emitter<HomepageState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(status: HomepageStatus.loading));
+      await usecase.deleteSummary(event.id);
+      final summaries = await usecase.getAllSummary();
+      emit(
+        state.copyWith(status: HomepageStatus.success, summaries: summaries),
+      );
+    } catch (e) {
+      emit(state.copyWith(status: HomepageStatus.success, errorMessage: '$e'));
+    }
   }
 }
