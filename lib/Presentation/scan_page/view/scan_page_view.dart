@@ -126,9 +126,7 @@ class ScanPageView extends StatelessWidget {
                                       hint: 'Price',
                                     )
                                   : Text(
-                                      state.billItem?.items?[index].price
-                                              .toString() ??
-                                          '',
+                                      '${state.billItem?.currency} ${state.billItem?.items?[index].price.toString() ?? ''}',
                                       style: CustomTheme.bodySmall,
                                     ),
                             ],
@@ -168,7 +166,7 @@ class ScanPageView extends StatelessWidget {
                               hint: 'Subtotal',
                             )
                           : Text(
-                              state.billItem?.subtotal.toString() ?? '',
+                              '${state.billItem?.currency} ${state.billItem?.subtotal.toString() ?? ''}',
                               style: CustomTheme.bodySmall,
                             ),
                     ],
@@ -192,7 +190,7 @@ class ScanPageView extends StatelessWidget {
                               hint: 'Subtotal',
                             )
                           : Text(
-                              state.billItem?.service.toString() ?? '',
+                              '${state.billItem?.currency} ${state.billItem?.service.toString() ?? ''}',
                               style: CustomTheme.bodySmall,
                             ),
                     ],
@@ -216,7 +214,7 @@ class ScanPageView extends StatelessWidget {
                               hint: 'Subtotal',
                             )
                           : Text(
-                              state.billItem?.tax.toString() ?? '',
+                              '${state.billItem?.currency} ${state.billItem?.tax.toString() ?? ''}',
                               style: CustomTheme.bodySmall,
                             ),
                     ],
@@ -240,7 +238,7 @@ class ScanPageView extends StatelessWidget {
                               hint: 'Subtotal',
                             )
                           : Text(
-                              state.billItem?.discount.toString() ?? '',
+                              '${state.billItem?.currency} ${state.billItem?.discount.toString() ?? ''}',
                               style: CustomTheme.bodySmall,
                             ),
                     ],
@@ -264,7 +262,7 @@ class ScanPageView extends StatelessWidget {
                               hint: 'Subtotal',
                             )
                           : Text(
-                              state.billItem?.total.toString() ?? '',
+                              '${state.billItem?.currency} ${state.billItem?.total.toString() ?? ''}',
                               style: CustomTheme.bodySmall,
                             ),
                     ],

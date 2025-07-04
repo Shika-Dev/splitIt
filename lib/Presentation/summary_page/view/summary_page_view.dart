@@ -116,7 +116,11 @@ class SummaryPageView extends StatelessWidget {
                   Expanded(
                     child: ListView.separated(
                       itemBuilder: (_, index) {
-                        return getSummaryListWidget(state, index);
+                        return getSummaryListWidget(
+                          state,
+                          index,
+                          state.model?.currency ?? '',
+                        );
                       },
                       separatorBuilder: (_, __) => VerticalSeparator(height: 1),
                       itemCount: (state.model?.summaryList.length ?? 0),
@@ -154,7 +158,11 @@ class SummaryPageView extends StatelessWidget {
     );
   }
 
-  Widget getSummaryListWidget(SummaryPageState state, int index) {
+  Widget getSummaryListWidget(
+    SummaryPageState state,
+    int index,
+    String currency,
+  ) {
     final summary = state.model?.summaryList[index];
     final user = state.model?.userList.firstWhere(
       (e) => e.id == summary?.userId,
@@ -180,7 +188,7 @@ class SummaryPageView extends StatelessWidget {
             Text(user?.name ?? '', style: CustomTheme.bodySmall),
 
             SizedBox(
-              width: SizeConfig.safeBlockHorizontal * 55,
+              width: SizeConfig.safeBlockHorizontal * 50,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -198,7 +206,11 @@ class SummaryPageView extends StatelessWidget {
             ),
           ],
         ),
-        Text('${summary?.totalOwned ?? 0}', style: CustomTheme.bodySmall),
+        Spacer(),
+        Text(
+          '$currency ${summary?.totalOwned.toStringAsFixed(0) ?? 0}',
+          style: CustomTheme.bodySmall,
+        ),
       ],
     );
   }

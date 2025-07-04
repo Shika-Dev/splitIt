@@ -99,6 +99,8 @@ class ScanPageBloc extends Bloc<ScanPageEvent, ScanPageState> {
         final discount = num.tryParse(controllers[itemCount * 3 + 3].text) ?? 0;
         final total = num.tryParse(controllers[itemCount * 3 + 4].text) ?? 0;
         final billName = state.billItem?.billName ?? '';
+        final currency = state.billItem?.currency ?? '';
+        final dateIssued = state.billItem?.dateIssued ?? '';
         final updatedBillItem = BillItemModel(
           items: items,
           subtotal: subtotal,
@@ -107,6 +109,8 @@ class ScanPageBloc extends Bloc<ScanPageEvent, ScanPageState> {
           discount: discount,
           total: total,
           billName: billName,
+          currency: currency,
+          dateIssued: dateIssued,
         );
 
         final id = await usecase.saveBill(updatedBillItem);

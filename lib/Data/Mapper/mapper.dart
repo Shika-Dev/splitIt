@@ -33,6 +33,8 @@ class Mapper {
         discount: response.discount ?? 0,
         total: response.total ?? 0,
         billName: response.billName ?? '',
+        currency: response.currency ?? '',
+        dateIssued: response.dateIssued ?? '',
       );
     } catch (e) {
       throw Exception('Something went wrong when mapping the data');
@@ -67,6 +69,8 @@ class Mapper {
         discount: model.discount,
         total: model.total,
         billName: model.billName,
+        currency: model.currency,
+        dateIssued: model.dateIssued,
       ),
     );
   }
@@ -94,6 +98,8 @@ class Mapper {
         discount: entity.billEntity.discount,
         total: entity.billEntity.total,
         billName: entity.billEntity.billName,
+        currency: entity.billEntity.currency,
+        dateIssued: entity.billEntity.dateIssued,
       ),
     );
   }
@@ -115,6 +121,8 @@ class Mapper {
               ),
             )
             .toList(),
+        currency: model.currency,
+        dateIssued: model.dateIssued,
       );
     } catch (e) {
       throw Exception('Something went wrong when mapping the data');
@@ -138,6 +146,8 @@ class Mapper {
               ),
             )
             .toList(),
+        currency: entity.currency,
+        dateIssued: entity.dateIssued,
       );
     } catch (e) {
       throw Exception('Something went wrong when mapping the data');
@@ -146,24 +156,7 @@ class Mapper {
 
   static List<SummaryModel> toListOfSummaryModel(List<SummaryEntity> entities) {
     try {
-      return entities.map((entity) {
-        return SummaryModel(
-          id: entity.id,
-          billName: entity.billName,
-          userList: entity.userList
-              .map((e) => UserModel(id: e.id, name: e.name, image: e.image))
-              .toList(),
-          summaryList: entity.summaryList
-              .map(
-                (e) => SummaryItemModel(
-                  userId: e.userId,
-                  totalOwned: e.totalOwned,
-                  items: e.items,
-                ),
-              )
-              .toList(),
-        );
-      }).toList();
+      return entities.map((entity) => toSummaryModel(entity)).toList();
     } catch (e) {
       throw Exception('Something went wrong when mapping the data');
     }

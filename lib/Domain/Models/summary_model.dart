@@ -5,12 +5,16 @@ class SummaryModel {
   String billName;
   List<UserModel> userList;
   List<SummaryItemModel> summaryList;
+  String currency;
+  String dateIssued;
 
   SummaryModel({
     required this.id,
     required this.billName,
     required this.userList,
     required this.summaryList,
+    required this.currency,
+    required this.dateIssued,
   });
 }
 

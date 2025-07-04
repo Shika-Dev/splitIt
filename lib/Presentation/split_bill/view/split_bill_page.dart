@@ -145,8 +145,7 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
                               children: [
                                 Text('Subtotal', style: CustomTheme.bodySmall),
                                 Text(
-                                  state.model?.billModel.subtotal.toString() ??
-                                      '',
+                                  '${state.model?.billModel.currency} ${state.model?.billModel.subtotal.toString() ?? ''}',
                                   style: CustomTheme.bodySmall,
                                 ),
                               ],
@@ -160,8 +159,7 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
                                   style: CustomTheme.bodySmall,
                                 ),
                                 Text(
-                                  state.model?.billModel.service.toString() ??
-                                      '',
+                                  '${state.model?.billModel.currency} ${state.model?.billModel.service.toString() ?? ''}',
                                   style: CustomTheme.bodySmall,
                                 ),
                               ],
@@ -172,7 +170,7 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
                               children: [
                                 Text('Tax', style: CustomTheme.bodySmall),
                                 Text(
-                                  state.model?.billModel.tax.toString() ?? '',
+                                  '${state.model?.billModel.currency} ${state.model?.billModel.tax.toString() ?? ''}',
                                   style: CustomTheme.bodySmall,
                                 ),
                               ],
@@ -183,8 +181,7 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
                               children: [
                                 Text('Discount', style: CustomTheme.bodySmall),
                                 Text(
-                                  state.model?.billModel.discount.toString() ??
-                                      '',
+                                  '${state.model?.billModel.currency} ${state.model?.billModel.discount.toString() ?? ''}',
                                   style: CustomTheme.bodySmall,
                                 ),
                               ],
@@ -195,7 +192,7 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
                               children: [
                                 Text('Total', style: CustomTheme.bodySmall),
                                 Text(
-                                  state.model?.billModel.total.toString() ?? '',
+                                  '${state.model?.billModel.currency} ${state.model?.billModel.total.toString() ?? ''}',
                                   style: CustomTheme.bodySmall,
                                 ),
                               ],
@@ -364,7 +361,7 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
                 style: CustomTheme.bodySmall,
               ),
               Text(
-                state.model?.billModel.items?[index].price.toString() ?? '',
+                '${state.model?.billModel.currency} ${state.model?.billModel.items?[index].price.toString() ?? ''}',
                 style: CustomTheme.bodySmall,
               ),
             ],

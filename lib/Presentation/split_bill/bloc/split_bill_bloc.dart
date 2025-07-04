@@ -141,6 +141,8 @@ class SplitBillBloc extends Bloc<SplitBillEvent, SplitBillState> {
           discount: currentModel.billModel.discount,
           total: currentModel.billModel.total,
           billName: currentModel.billModel.billName,
+          currency: currentModel.billModel.currency,
+          dateIssued: currentModel.billModel.dateIssued,
         );
         final updatedModel = SplitBillModel(
           id: currentModel.id,
@@ -217,6 +219,8 @@ class SplitBillBloc extends Bloc<SplitBillEvent, SplitBillState> {
         billName: model.billModel.billName,
         userList: users,
         summaryList: summaryList,
+        currency: model.billModel.currency,
+        dateIssued: model.billModel.dateIssued,
       );
       final id = await usecase.createSummary(summary);
       usecase.deleteBill(state.model?.id ?? '');

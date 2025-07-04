@@ -13,6 +13,8 @@ class BillEntity {
     required this.discount,
     required this.total,
     required this.billName,
+    required this.currency,
+    required this.dateIssued,
   });
 
   @HiveField(0)
@@ -35,4 +37,10 @@ class BillEntity {
 
   @HiveField(6)
   String billName;
+
+  @HiveField(7)
+  String currency;
+
+  @HiveField(8)
+  String dateIssued;
 }

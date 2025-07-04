@@ -11,6 +11,8 @@ class SummaryEntity {
     required this.billName,
     required this.userList,
     required this.summaryList,
+    required this.currency,
+    required this.dateIssued,
   });
 
   @HiveField(0)
@@ -23,4 +25,10 @@ class SummaryEntity {
 
   @HiveField(3)
   List<SummaryItemEntity> summaryList;
+
+  @HiveField(4)
+  String currency;
+
+  @HiveField(5)
+  String dateIssued;
 }

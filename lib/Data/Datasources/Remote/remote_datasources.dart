@@ -26,48 +26,18 @@ class RemoteDatasources {
               "This is a receipt OCR result. Extract and return a JSON with:\n"
               "- bill name\n"
               "- list of items (name, quantity, price)\n"
-              "- subtotal, service, tax, discount and total\n\n"
+              "- subtotal, service, tax, discount and total\n"
+              "- the currency used (if not mentioned return the currency based on the language, if its still unrecognisable use \$)\n"
+              "- date issued\n\n"
               "Receipt:\n$rawOcr",
         },
       ],
     };
 
     try {
-      // final response = await dio.post('', data: jsonEncode(payload));
+      final response = await dio.post('', data: jsonEncode(payload));
 
-      // final message = response.data['choices'][0]['message']['content'];
-      final message = """```json
-{
-  "bill_name": "NASI TEMPONG INDRA at Dewi Sri 99X Legian Kuta",
-  "items": [
-    {
-      "name": "NT. LELE",
-      "quantity": 2,
-      "price": 35000
-    },
-    {
-      "name": "NT AYAM 1/4",
-      "quantity": 1,
-      "price": 53000
-    },
-    {
-      "name": "ES TEH TAWAR",
-      "quantity": 2,
-      "price": 10000
-    },
-    {
-      "name": "ES CINCAU",
-      "quantity": 1,
-      "price": 15000
-    }
-  ],
-  "subtotal": 158000,
-  "service": 4740,
-  "tax": 15800,
-  "discount": 0,
-  "total": 178600
-}
-```""";
+      final message = response.data['choices'][0]['message']['content'];
 
       // Remove markdown code block markers if present
       final cleanedMessage = message

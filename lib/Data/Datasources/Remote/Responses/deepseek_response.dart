@@ -6,6 +6,8 @@ class DeepseekResponse {
   final num? discount;
   final num? total;
   final String? billName;
+  final String? currency;
+  final String? dateIssued;
 
   DeepseekResponse({
     this.items,
@@ -15,6 +17,8 @@ class DeepseekResponse {
     this.discount,
     this.total,
     this.billName,
+    this.currency,
+    this.dateIssued,
   });
 
   factory DeepseekResponse.fromJson(Map<String, dynamic> json) {
@@ -30,6 +34,8 @@ class DeepseekResponse {
       discount: json['discount'],
       total: json['total'],
       billName: json['bill_name'],
+      currency: json['currency'],
+      dateIssued: json['date_issued'],
     );
   }
 }

@@ -6,6 +6,8 @@ class BillItemModel {
   final num discount;
   final num total;
   final String billName;
+  final String currency;
+  final String dateIssued;
 
   const BillItemModel({
     required this.items,
@@ -15,6 +17,8 @@ class BillItemModel {
     required this.discount,
     required this.total,
     required this.billName,
+    required this.currency,
+    required this.dateIssued,
   });
 }
 
