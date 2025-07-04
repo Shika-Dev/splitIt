@@ -309,14 +309,33 @@ class _SplitBillPageViewState extends State<SplitBillPageView> {
     return Column(
       children: [
         InkWell(
-          onTap: () {
+          onTap: () async {
             final bloc = context.read<SplitBillBloc>();
+            // If currently editing a user, commit the edit first
+            if (editingUserId != null) {
+              final state = bloc.state;
+              final users = state.model?.users ?? [];
+              final editingUser =
+                  users.where((u) => u.id == editingUserId).isNotEmpty
+                  ? users.firstWhere((u) => u.id == editingUserId)
+                  : null;
+              if (editingUser != null) {
+                bloc.add(
+                  UpdateUserName(
+                    userId: editingUser.id,
+                    name: editingController.text,
+                  ),
+                );
+              }
+              // Wait a short moment for the bloc to update
+              await Future.delayed(Duration(milliseconds: 100));
+            }
             bloc.add(AddUserToSplitBill(name: ''));
             // Wait for the bloc to update, then set editingUserId to the last user's id
             Future.delayed(Duration(milliseconds: 100), () {
               final state = bloc.state;
-              final users = state.model?.users;
-              if (users != null && users.isNotEmpty) {
+              final users = state.model?.users ?? [];
+              if (users.isNotEmpty) {
                 setState(() {
                   editingUserId = users.last.id;
                   editingController.text = '';
