@@ -175,7 +175,7 @@ class SplitBillBloc extends Bloc<SplitBillEvent, SplitBillState> {
       };
       for (final item in items) {
         if (item.userIds.isEmpty) continue;
-        final perUser = (item.price * item.quantity) / item.userIds.length;
+        final perUser = item.price / item.userIds.length;
         for (final uid in item.userIds) {
           userToItemTotal[uid] = (userToItemTotal[uid] ?? 0) + perUser;
           userToItemNames[uid] = [...userToItemNames[uid] ?? [], item.name];

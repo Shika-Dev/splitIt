@@ -18,14 +18,14 @@ class RemoteDatasources {
       ),
     );
     final payload = {
-      "model": "deepseek/deepseek-r1:free",
+      "model": "google/gemma-3-12b-it:free",
       "messages": [
         {
           "role": "user",
           "content":
               "This is a receipt OCR result. Extract and return a JSON with:\n"
               "- bill name\n"
-              "- list of items (name, quantity, price)\n"
+              "- list of items (name, quantity, price (make sure the price is the total price and not unit price, if it is a unit price, multiply it with the quantity))\n"
               "- subtotal, service, tax, discount and total\n"
               "- the currency used (if not mentioned return the currency based on the language, if its still unrecognisable use \$)\n"
               "- date issued\n\n"
