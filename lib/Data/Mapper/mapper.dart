@@ -15,6 +15,25 @@ import 'package:uuid/uuid.dart';
 class Mapper {
   static BillItemModel toBillItemModel(DeepseekResponse response) {
     try {
+      // Validate that we have essential bill data
+      if (response.items == null || response.items!.isEmpty) {
+        throw Exception('No bill items found in the response');
+      }
+
+      if (response.total == null || response.total! <= 0) {
+        throw Exception('Invalid or missing total amount');
+      }
+
+      // Validate that items have meaningful data
+      for (var item in response.items!) {
+        if (item.name == null || item.name!.trim().isEmpty) {
+          throw Exception('Invalid item name found');
+        }
+        if (item.price == null || item.price! <= 0) {
+          throw Exception('Invalid item price found');
+        }
+      }
+
       return BillItemModel(
         items:
             response.items
@@ -37,7 +56,7 @@ class Mapper {
         dateIssued: response.dateIssued ?? '',
       );
     } catch (e) {
-      throw Exception('Something went wrong when mapping the data');
+      throw Exception('Invalid bill data: ${e.toString()}');
     }
   }
 

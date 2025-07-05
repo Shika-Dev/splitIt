@@ -47,10 +47,24 @@ class RemoteDatasources {
           .trim();
 
       final result = DeepseekResponse.fromJson(jsonDecode(cleanedMessage));
+
+      // Validate the response contains meaningful bill data
+      if (result.items == null || result.items!.isEmpty) {
+        throw Exception("No bill items found in the image");
+      }
+
+      if (result.total == null || result.total! <= 0) {
+        throw Exception("No valid total amount found in the image");
+      }
+
       return result;
     } on DioException catch (e) {
       throw Exception("Failed to connect to DeepSeek API: ${e.response?.data}");
     } catch (e) {
+      if (e.toString().contains("No bill items found") ||
+          e.toString().contains("No valid total amount")) {
+        throw Exception("Invalid bill image: $e");
+      }
       throw Exception("Invalid JSON returned: $e");
     }
   }

@@ -36,7 +36,71 @@ class ScanPageBloc extends Bloc<ScanPageEvent, ScanPageState> {
       for (TextBlock block in recognizedText.blocks) {
         allLines.addAll(block.lines.map((e) => e.text));
       }
+
+      // Check if OCR extracted any meaningful text
+      if (allLines.isEmpty) {
+        emit(
+          state.copyWith(
+            status: ScanPageStatus.failed,
+            errorMessage:
+                'No text found in the image. Please make sure you\'re scanning a clear bill or receipt.',
+          ),
+        );
+        return;
+      }
+
+      // Check if the text contains bill-related keywords
+      final billKeywords = [
+        'total',
+        'subtotal',
+        'tax',
+        'receipt',
+        'bill',
+        'amount',
+        'price',
+        'item',
+        'quantity',
+      ];
+      final hasBillContent = allLines.any(
+        (line) =>
+            billKeywords.any((keyword) => line.toLowerCase().contains(keyword)),
+      );
+
+      if (!hasBillContent) {
+        emit(
+          state.copyWith(
+            status: ScanPageStatus.failed,
+            errorMessage:
+                'This doesn\'t appear to be a bill or receipt. Please scan a valid bill image.',
+          ),
+        );
+        return;
+      }
+
       final extractedItems = await usecase.getBillItems(allLines);
+
+      // Validate that we got meaningful bill data
+      if (extractedItems.items == null || extractedItems.items!.isEmpty) {
+        emit(
+          state.copyWith(
+            status: ScanPageStatus.failed,
+            errorMessage:
+                'Could not extract bill items from the image. Please try with a clearer image.',
+          ),
+        );
+        return;
+      }
+
+      if (extractedItems.total <= 0) {
+        emit(
+          state.copyWith(
+            status: ScanPageStatus.failed,
+            errorMessage:
+                'Could not detect a valid total amount. Please ensure the total is clearly visible in the image.',
+          ),
+        );
+        return;
+      }
 
       emit(
         state.copyWith(
@@ -45,7 +109,26 @@ class ScanPageBloc extends Bloc<ScanPageEvent, ScanPageState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(status: ScanPageStatus.failed, errorMessage: '$e'));
+      String errorMessage = 'An error occurred while processing the image.';
+
+      // Provide more specific error messages based on the exception
+      if (e.toString().contains('Failed to connect to DeepSeek API')) {
+        errorMessage =
+            'Network error. Please check your internet connection and try again.';
+      } else if (e.toString().contains('Invalid JSON')) {
+        errorMessage =
+            'Could not process the bill data. Please try with a clearer image.';
+      } else if (e.toString().contains('Exception')) {
+        errorMessage =
+            'Unable to process this image. Please ensure it\'s a clear photo of a bill or receipt.';
+      }
+
+      emit(
+        state.copyWith(
+          status: ScanPageStatus.failed,
+          errorMessage: errorMessage,
+        ),
+      );
     }
   }
 

@@ -85,7 +85,7 @@ class ScanPageView extends StatelessWidget {
                       width: SizeConfig.safeBlockHorizontal * 50,
                       child: SplitBillButton(
                         onPressed: () => Navigator.pop(context),
-                        label: 'Re-scan your bill',
+                        label: 'Try Again',
                       ),
                     ),
                   ],
