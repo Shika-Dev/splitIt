@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:split_it/Presentation/homepage/bloc/homepage_bloc.dart';
 import 'package:split_it/Presentation/scan_page/view/scan_page_view.dart';
 import 'package:split_it/Presentation/summary_page/view/summary_page_view.dart';
@@ -74,6 +75,43 @@ class HomePageView extends StatelessWidget {
                   Expanded(
                     child: BlocBuilder<HomepageBloc, HomepageState>(
                       builder: (context, state) {
+                        if (state.status == HomepageStatus.loading) {
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Lottie.asset(
+                                  'assets/lottie/loading.json',
+                                  fit: BoxFit.fitWidth,
+                                  width: SizeConfig.safeBlockHorizontal * 40,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        if (state.status == HomepageStatus.failed) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Lottie.asset(
+                                  'assets/lottie/failed.json',
+                                  fit: BoxFit.fitWidth,
+                                  width: SizeConfig.safeBlockHorizontal * 30,
+                                ),
+                                VerticalSeparator(height: 3),
+                                Text(
+                                  state.errorMessage ?? '',
+                                  style: CustomTheme.bodyMedium,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
                         return ListView.separated(
                           itemBuilder: (_, index) {
                             final summary = state.summaries[index];
