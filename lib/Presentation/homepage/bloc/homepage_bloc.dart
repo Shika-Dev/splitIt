@@ -25,7 +25,7 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
         state.copyWith(status: HomepageStatus.success, summaries: summaries),
       );
     } catch (e) {
-      emit(state.copyWith(status: HomepageStatus.success, errorMessage: '$e'));
+      emit(state.copyWith(status: HomepageStatus.failed, errorMessage: '$e'));
     }
   }
 
@@ -48,7 +48,7 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
         state.copyWith(status: HomepageStatus.success, summaries: summaries),
       );
     } catch (e) {
-      emit(state.copyWith(status: HomepageStatus.success, errorMessage: '$e'));
+      emit(state.copyWith(status: HomepageStatus.failed, errorMessage: '$e'));
     }
   }
 }
