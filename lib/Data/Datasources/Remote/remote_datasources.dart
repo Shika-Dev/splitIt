@@ -1,22 +1,14 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_it/get_it.dart';
 import 'package:split_it/Data/Datasources/Remote/Responses/deepseek_response.dart';
+import 'package:split_it/Data/Datasources/Remote/network/dio.dart';
 
 class RemoteDatasources {
-  Future<DeepseekResponse> cleanOCRText(List<String> rawOcr) async {
-    final apiKey = dotenv.env['OPENAI_API_KEY'];
-    const url = 'https://openrouter.ai/api/v1/chat/completions';
+  final NetworkCall networkCall;
+  RemoteDatasources({required this.networkCall});
 
-    final dio = Dio(
-      BaseOptions(
-        baseUrl: url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
-        },
-      ),
-    );
+  Future<DeepseekResponse> cleanOCRText(List<String> rawOcr) async {
     final payload = {
       "model": "google/gemma-3-12b-it:free",
       "messages": [
@@ -35,7 +27,10 @@ class RemoteDatasources {
     };
 
     try {
-      final response = await dio.post('', data: jsonEncode(payload));
+      final response = await GetIt.I<NetworkCall>().post(
+        '',
+        data: jsonEncode(payload),
+      );
 
       final message = response.data['choices'][0]['message']['content'];
 
@@ -59,7 +54,9 @@ class RemoteDatasources {
 
       return result;
     } on DioException catch (e) {
-      throw Exception("Failed to connect to DeepSeek API: ${e.response?.data}");
+      throw Exception(
+        "Failed to connect to DeepSeek API: \\${e.response?.data}",
+      );
     } catch (e) {
       if (e.toString().contains("No bill items found") ||
           e.toString().contains("No valid total amount")) {
