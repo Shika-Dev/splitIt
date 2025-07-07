@@ -10,19 +10,21 @@ import 'package:split_it/Domain/Repository/abs_repository.dart';
 import 'package:split_it/Data/Repository/split_bill_repository.dart';
 import 'package:split_it/Data/Datasources/Remote/remote_datasources.dart';
 import 'package:split_it/Data/Datasources/Local/local_datasources.dart';
+import 'package:split_it/Presentation/scan_page/bloc/scan_page_bloc.dart';
 
-@GenerateMocks([
-  ScanBillUsecase,
-  HomepageUsecase,
-  SplitBillUsecase,
-  SummaryUsecase,
-  AbsSplitBillRepository,
-  SplitBillRepositoryImpl,
-  RemoteDatasources,
-  LocalDatasources,
-  Box,
-  Dio,
-  Response,
-  NetworkCall,
+@GenerateNiceMocks([
+  MockSpec<ScanBillUsecase>(),
+  MockSpec<HomepageUsecase>(),
+  MockSpec<SplitBillUsecase>(),
+  MockSpec<SummaryUsecase>(),
+  MockSpec<AbsSplitBillRepository>(),
+  MockSpec<SplitBillRepositoryImpl>(),
+  MockSpec<RemoteDatasources>(),
+  MockSpec<LocalDatasources>(),
+  MockSpec<Box>(),
+  MockSpec<Dio>(),
+  MockSpec<Response>(),
+  MockSpec<NetworkCall>(),
+  MockSpec<ScanPageBloc>(),
 ])
 void main() {}
