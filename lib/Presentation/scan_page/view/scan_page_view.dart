@@ -100,173 +100,198 @@ class ScanPageView extends StatelessWidget {
                   VerticalSeparator(height: 3),
                   Expanded(
                     child: ListView.separated(
-                      itemBuilder: (_, index) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      itemBuilder: (_, index) {
+                        var itemCount = state.billItem?.items?.length ?? 0;
+                        if (index < itemCount) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  state.isEdit
+                                      ? SplitBillTextField(
+                                          width:
+                                              SizeConfig.safeBlockHorizontal *
+                                              50,
+                                          controller:
+                                              state.controllers[index * 3],
+                                          hint: 'Product Name',
+                                        )
+                                      : Text(
+                                          state.billItem?.items?[index].name ??
+                                              '',
+                                          style: CustomTheme.bodySmall,
+                                        ),
+                                  state.isEdit
+                                      ? SplitBillTextField(
+                                          width:
+                                              SizeConfig.safeBlockHorizontal *
+                                              30,
+                                          controller:
+                                              state.controllers[index * 3 + 2],
+                                          hint: 'Price',
+                                        )
+                                      : Text(
+                                          '${state.billItem?.currency} ${state.billItem?.items?[index].price.toString() ?? ''}',
+                                          style: CustomTheme.bodySmall,
+                                        ),
+                                ],
+                              ),
+                              VerticalSeparator(height: 1),
                               state.isEdit
                                   ? SplitBillTextField(
                                       width:
-                                          SizeConfig.safeBlockHorizontal * 50,
-                                      controller: state.controllers[index * 3],
-                                      hint: 'Product Name',
-                                    )
-                                  : Text(
-                                      state.billItem?.items?[index].name ?? '',
-                                      style: CustomTheme.bodySmall,
-                                    ),
-                              state.isEdit
-                                  ? SplitBillTextField(
-                                      width:
-                                          SizeConfig.safeBlockHorizontal * 30,
+                                          SizeConfig.safeBlockHorizontal * 20,
                                       controller:
-                                          state.controllers[index * 3 + 2],
-                                      hint: 'Price',
+                                          state.controllers[index * 3 + 1],
+                                      hint: 'Qty',
                                     )
                                   : Text(
-                                      '${state.billItem?.currency} ${state.billItem?.items?[index].price.toString() ?? ''}',
+                                      'x ${state.billItem?.items?[index].quantity ?? 0}',
                                       style: CustomTheme.bodySmall,
                                     ),
                             ],
-                          ),
-                          VerticalSeparator(height: 1),
-                          state.isEdit
-                              ? SplitBillTextField(
-                                  width: SizeConfig.safeBlockHorizontal * 20,
-                                  controller: state.controllers[index * 3 + 1],
-                                  hint: 'Qty',
-                                )
-                              : Text(
-                                  'x ${state.billItem?.items?[index].quantity ?? 0}',
+                          );
+                        }
+                        return Column(
+                          children: [
+                            VerticalSeparator(height: 1),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Subtotal', style: CustomTheme.bodySmall),
+                                state.isEdit
+                                    ? SplitBillTextField(
+                                        width:
+                                            SizeConfig.safeBlockHorizontal * 50,
+                                        controller:
+                                            state.controllers[(state
+                                                        .billItem
+                                                        ?.items
+                                                        ?.length ??
+                                                    0) *
+                                                3],
+                                        hint: 'Subtotal',
+                                      )
+                                    : Text(
+                                        '${state.billItem?.currency} ${state.billItem?.subtotal.toString() ?? ''}',
+                                        style: CustomTheme.bodySmall,
+                                      ),
+                              ],
+                            ),
+                            VerticalSeparator(height: 1),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Service Charge',
                                   style: CustomTheme.bodySmall,
                                 ),
-                        ],
-                      ),
+                                state.isEdit
+                                    ? SplitBillTextField(
+                                        width:
+                                            SizeConfig.safeBlockHorizontal * 50,
+                                        controller:
+                                            state.controllers[(state
+                                                            .billItem
+                                                            ?.items
+                                                            ?.length ??
+                                                        0) *
+                                                    3 +
+                                                1],
+                                        hint: 'Subtotal',
+                                      )
+                                    : Text(
+                                        '${state.billItem?.currency} ${state.billItem?.service.toString() ?? ''}',
+                                        style: CustomTheme.bodySmall,
+                                      ),
+                              ],
+                            ),
+                            VerticalSeparator(height: 1),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Tax', style: CustomTheme.bodySmall),
+                                state.isEdit
+                                    ? SplitBillTextField(
+                                        width:
+                                            SizeConfig.safeBlockHorizontal * 50,
+                                        controller:
+                                            state.controllers[(state
+                                                            .billItem
+                                                            ?.items
+                                                            ?.length ??
+                                                        0) *
+                                                    3 +
+                                                2],
+                                        hint: 'Subtotal',
+                                      )
+                                    : Text(
+                                        '${state.billItem?.currency} ${state.billItem?.tax.toString() ?? ''}',
+                                        style: CustomTheme.bodySmall,
+                                      ),
+                              ],
+                            ),
+                            VerticalSeparator(height: 1),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Discount', style: CustomTheme.bodySmall),
+                                state.isEdit
+                                    ? SplitBillTextField(
+                                        width:
+                                            SizeConfig.safeBlockHorizontal * 50,
+                                        controller:
+                                            state.controllers[(state
+                                                            .billItem
+                                                            ?.items
+                                                            ?.length ??
+                                                        0) *
+                                                    3 +
+                                                3],
+                                        hint: 'Subtotal',
+                                      )
+                                    : Text(
+                                        '${state.billItem?.currency} ${state.billItem?.discount.toString() ?? ''}',
+                                        style: CustomTheme.bodySmall,
+                                      ),
+                              ],
+                            ),
+                            VerticalSeparator(height: 1),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Total', style: CustomTheme.bodySmall),
+                                state.isEdit
+                                    ? SplitBillTextField(
+                                        width:
+                                            SizeConfig.safeBlockHorizontal * 50,
+                                        controller:
+                                            state.controllers[(state
+                                                            .billItem
+                                                            ?.items
+                                                            ?.length ??
+                                                        0) *
+                                                    3 +
+                                                4],
+                                        hint: 'Subtotal',
+                                      )
+                                    : Text(
+                                        '${state.billItem?.currency} ${state.billItem?.total.toString() ?? ''}',
+                                        style: CustomTheme.bodySmall,
+                                      ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
                       separatorBuilder: (_, __) => VerticalSeparator(height: 1),
-                      itemCount: state.billItem?.items?.length ?? 0,
+                      itemCount: (state.billItem?.items?.length ?? 0) + 1,
                     ),
                   ),
-                  VerticalSeparator(height: 1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Subtotal', style: CustomTheme.bodySmall),
-                      state.isEdit
-                          ? SplitBillTextField(
-                              width: SizeConfig.safeBlockHorizontal * 50,
-                              controller:
-                                  state.controllers[(state
-                                              .billItem
-                                              ?.items
-                                              ?.length ??
-                                          0) *
-                                      3],
-                              hint: 'Subtotal',
-                            )
-                          : Text(
-                              '${state.billItem?.currency} ${state.billItem?.subtotal.toString() ?? ''}',
-                              style: CustomTheme.bodySmall,
-                            ),
-                    ],
-                  ),
-                  VerticalSeparator(height: 1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Service Charge', style: CustomTheme.bodySmall),
-                      state.isEdit
-                          ? SplitBillTextField(
-                              width: SizeConfig.safeBlockHorizontal * 50,
-                              controller:
-                                  state.controllers[(state
-                                                  .billItem
-                                                  ?.items
-                                                  ?.length ??
-                                              0) *
-                                          3 +
-                                      1],
-                              hint: 'Subtotal',
-                            )
-                          : Text(
-                              '${state.billItem?.currency} ${state.billItem?.service.toString() ?? ''}',
-                              style: CustomTheme.bodySmall,
-                            ),
-                    ],
-                  ),
-                  VerticalSeparator(height: 1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Tax', style: CustomTheme.bodySmall),
-                      state.isEdit
-                          ? SplitBillTextField(
-                              width: SizeConfig.safeBlockHorizontal * 50,
-                              controller:
-                                  state.controllers[(state
-                                                  .billItem
-                                                  ?.items
-                                                  ?.length ??
-                                              0) *
-                                          3 +
-                                      2],
-                              hint: 'Subtotal',
-                            )
-                          : Text(
-                              '${state.billItem?.currency} ${state.billItem?.tax.toString() ?? ''}',
-                              style: CustomTheme.bodySmall,
-                            ),
-                    ],
-                  ),
-                  VerticalSeparator(height: 1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Discount', style: CustomTheme.bodySmall),
-                      state.isEdit
-                          ? SplitBillTextField(
-                              width: SizeConfig.safeBlockHorizontal * 50,
-                              controller:
-                                  state.controllers[(state
-                                                  .billItem
-                                                  ?.items
-                                                  ?.length ??
-                                              0) *
-                                          3 +
-                                      3],
-                              hint: 'Subtotal',
-                            )
-                          : Text(
-                              '${state.billItem?.currency} ${state.billItem?.discount.toString() ?? ''}',
-                              style: CustomTheme.bodySmall,
-                            ),
-                    ],
-                  ),
-                  VerticalSeparator(height: 1),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Total', style: CustomTheme.bodySmall),
-                      state.isEdit
-                          ? SplitBillTextField(
-                              width: SizeConfig.safeBlockHorizontal * 50,
-                              controller:
-                                  state.controllers[(state
-                                                  .billItem
-                                                  ?.items
-                                                  ?.length ??
-                                              0) *
-                                          3 +
-                                      4],
-                              hint: 'Subtotal',
-                            )
-                          : Text(
-                              '${state.billItem?.currency} ${state.billItem?.total.toString() ?? ''}',
-                              style: CustomTheme.bodySmall,
-                            ),
-                    ],
-                  ),
+
                   VerticalSeparator(height: 1),
                   Row(
                     children: [

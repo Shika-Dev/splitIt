@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,9 +8,10 @@ import 'package:split_it/Domain/Models/bill_item_model.dart';
 import 'package:split_it/Presentation/scan_page/bloc/scan_page_bloc.dart';
 import 'package:split_it/Presentation/scan_page/view/scan_page_view.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 
-import '../mocks/mocks.mocks.dart';
+class MockScanPageBloc extends MockBloc<ScanPageEvent, ScanPageState>
+    implements ScanPageBloc {}
 
 void main() {
   group('ScanPageView Widget Tests (with MockBloc)', () {
@@ -31,7 +34,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final loadingState = const ScanPageState(status: ScanPageStatus.loading);
-      when(() => mockBloc.state).thenReturn(() => loadingState);
+      when(() => mockBloc.state).thenReturn(loadingState);
       whenListen(
         mockBloc,
         Stream<ScanPageState>.fromIterable([loadingState]),
@@ -68,7 +71,7 @@ void main() {
         status: ScanPageStatus.success,
         billItem: mockBillItem,
       );
-      when(mockBloc.state).thenReturn(successState);
+      when(() => mockBloc.state).thenReturn(successState);
       whenListen(
         mockBloc,
         Stream<ScanPageState>.fromIterable([successState]),
@@ -97,7 +100,7 @@ void main() {
         status: ScanPageStatus.failed,
         errorMessage: 'Test error',
       );
-      when(mockBloc.state).thenReturn(failedState);
+      when(() => mockBloc.state).thenReturn(failedState);
       whenListen(
         mockBloc,
         Stream<ScanPageState>.fromIterable([failedState]),
@@ -122,7 +125,7 @@ void main() {
           discount: 0.0,
           total: 6.5,
           billName: 'Test Bill',
-          currency: '\u0024',
+          currency: '\$',
           dateIssued: '2024-01-01',
         );
         final controllers = List.generate(8, (_) => TextEditingController());
@@ -137,25 +140,37 @@ void main() {
           isEdit: true,
           controllers: controllers,
         );
-        when(mockBloc.state).thenReturn(notEditState);
+
+        // Use a StreamController for the bloc's state stream
+        final stateController = StreamController<ScanPageState>();
+
+        when(() => mockBloc.state).thenReturn(notEditState);
         whenListen(
           mockBloc,
-          Stream<ScanPageState>.fromIterable([
-            notEditState,
-            editState,
-            notEditState,
-          ]),
+          stateController.stream,
           initialState: notEditState,
         );
 
         await tester.pumpWidget(createTestWidget());
         await tester.pump();
+
+        // Simulate tapping Edit: emit editState and update the stub
+        stateController.add(editState);
+        when(() => mockBloc.state).thenReturn(editState);
         await tester.tap(find.text('Edit'));
         await tester.pump();
+
         expect(find.byType(TextFormField), findsWidgets);
+
+        // Simulate tapping Confirm: emit notEditState and update the stub
+        stateController.add(notEditState);
+        when(() => mockBloc.state).thenReturn(notEditState);
         await tester.tap(find.text('Confirm'));
         await tester.pump();
+
         expect(find.byType(TextFormField), findsNothing);
+
+        await stateController.close();
       },
     );
 
@@ -177,7 +192,7 @@ void main() {
         status: ScanPageStatus.success,
         billItem: mockBillItem,
       );
-      when(mockBloc.state).thenReturn(successState);
+      when(() => mockBloc.state).thenReturn(successState);
       whenListen(
         mockBloc,
         Stream<ScanPageState>.fromIterable([successState]),
@@ -208,7 +223,7 @@ void main() {
         status: ScanPageStatus.success,
         billItem: mockBillItem,
       );
-      when(mockBloc.state).thenReturn(successState);
+      when(() => mockBloc.state).thenReturn(successState);
       whenListen(
         mockBloc,
         Stream<ScanPageState>.fromIterable([successState]),
