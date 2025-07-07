@@ -22,7 +22,7 @@ void main() {
       getIt = GetIt.instance;
 
       // Register the mock usecase
-      getIt.registerFactory<HomepageUsecase>(() => mockUsecase);
+      getIt.registerSingleton<HomepageUsecase>(mockUsecase);
 
       // Register the HomepageBloc with the mock usecase
       getIt.registerFactory<HomepageBloc>(
