@@ -26,6 +26,13 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Create .env file
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.API_KEY }}" >> .env
+      - name: Create .env.test file
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.API_KEY_TEST }}" >> .env.test
         
       - name: Run Tests
         run: flutter test
