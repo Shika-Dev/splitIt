@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mockito/annotations.dart';
 import 'package:hive/hive.dart';
+import 'package:split_it/Core/Services/ocr_service.dart';
 import 'package:split_it/Data/Datasources/Remote/network/dio.dart';
 import 'package:split_it/Domain/Usecases/scan_bill_usecase.dart';
 import 'package:split_it/Domain/Usecases/homepage_usecase.dart';
@@ -25,6 +26,7 @@ import 'package:split_it/Presentation/scan_page/bloc/scan_page_bloc.dart';
   MockSpec<Dio>(),
   MockSpec<Response>(),
   MockSpec<NetworkCall>(),
+  MockSpec<OCRService>(),
   MockSpec<ScanPageBloc>(),
 ])
 void main() {}

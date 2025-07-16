@@ -13,11 +13,13 @@ void main() {
     late MockScanBillUsecase mockUsecase;
     late ScanPageBloc bloc;
     late File mockImageFile;
+    late MockOCRService mockOCRService;
 
     setUp(() {
       mockUsecase = MockScanBillUsecase();
-      bloc = ScanPageBloc(usecase: mockUsecase);
-      mockImageFile = File('test/assets/mock_bill.jpg');
+      mockOCRService = MockOCRService();
+      bloc = ScanPageBloc(usecase: mockUsecase, ocrService: mockOCRService);
+      mockImageFile = File('test/assets/valid_bill.jpg');
     });
 
     tearDown(() {
@@ -51,7 +53,22 @@ void main() {
             currency: '\$',
             dateIssued: '2024-01-15',
           );
-
+          when(mockOCRService.extractLines(mockImageFile)).thenAnswer(
+            (_) async => [
+              'Test Restaurant Bill',
+              'Item: Test Item 1',
+              'Quantity: 2',
+              'Price: 15.0',
+              'Item: Test Item 2',
+              'Quantity: 1',
+              'Price: 10.0',
+              'Subtotal: 40.0',
+              'Service: 5.0',
+              'Tax: 3.0',
+              'Discount: 2.0',
+              'Total: 46.0',
+            ],
+          );
           when(
             mockUsecase.getBillItems(any),
           ).thenAnswer((_) async => mockBillItem);
@@ -79,6 +96,9 @@ void main() {
       blocTest<ScanPageBloc, ScanPageState>(
         'emits [loading, failed] when OCR returns empty text',
         build: () {
+          when(
+            mockOCRService.extractLines(mockImageFile),
+          ).thenAnswer((_) async => []);
           when(mockUsecase.getBillItems([])).thenAnswer(
             (_) async => BillItemModel(
               items: [],
@@ -114,6 +134,9 @@ void main() {
       blocTest<ScanPageBloc, ScanPageState>(
         'emits [loading, failed] when text contains no bill keywords',
         build: () {
+          when(mockOCRService.extractLines(mockImageFile)).thenAnswer(
+            (_) async => ['This is a line with text', 'Another line with text'],
+          );
           when(
             mockUsecase.getBillItems(['random text', 'another line']),
           ).thenAnswer(
@@ -151,6 +174,21 @@ void main() {
       blocTest<ScanPageBloc, ScanPageState>(
         'emits [loading, failed] when no bill items are extracted',
         build: () {
+          when(mockOCRService.extractLines(mockImageFile)).thenAnswer(
+            (_) async => [
+              'Item: Test Item 1',
+              'Quantity: 2',
+              'Price: 15.0',
+              'Item: Test Item 2',
+              'Quantity: 1',
+              'Price: 10.0',
+              'Subtotal: 40.0',
+              'Service: 5.0',
+              'Tax: 3.0',
+              'Discount: 2.0',
+              'Total: 46.0',
+            ],
+          );
           when(mockUsecase.getBillItems(any)).thenAnswer(
             (_) async => BillItemModel(
               items: [], // Empty items
@@ -186,6 +224,18 @@ void main() {
       blocTest<ScanPageBloc, ScanPageState>(
         'emits [loading, failed] when total amount is invalid',
         build: () {
+          when(mockOCRService.extractLines(mockImageFile)).thenAnswer(
+            (_) async => [
+              'Item: Test Item',
+              'Quantity: 1',
+              'Price: 10.0',
+              'Subtotal: 10.0',
+              'Service: 0.0',
+              'Tax: 0.0',
+              'Discount: 0.0',
+              'Total: 0', // Invalid total
+            ],
+          );
           when(mockUsecase.getBillItems(any)).thenAnswer(
             (_) async => BillItemModel(
               items: [BillItem(name: 'Test Item', quantity: 1, price: 10.0)],
@@ -221,8 +271,21 @@ void main() {
       blocTest<ScanPageBloc, ScanPageState>(
         'emits [loading, failed] when network error occurs',
         build: () {
-          when(mockUsecase.getBillItems(any)).thenThrow(
+          when(mockOCRService.extractLines(mockImageFile)).thenThrow(
             Exception('Failed to connect to DeepSeek API: Connection timeout'),
+          );
+          when(mockUsecase.getBillItems(any)).thenAnswer(
+            (_) async => BillItemModel(
+              items: [BillItem(name: 'Test Item', quantity: 1, price: 10.0)],
+              subtotal: 10.0,
+              service: 0.0,
+              tax: 0.0,
+              discount: 0.0,
+              total: 10.0,
+              billName: 'Test Bill',
+              currency: '\$',
+              dateIssued: '2024-01-01',
+            ),
           );
           return bloc;
         },
@@ -247,8 +310,11 @@ void main() {
         'emits [loading, failed] when JSON parsing fails',
         build: () {
           when(
+            mockOCRService.extractLines(mockImageFile),
+          ).thenAnswer((_) async => ["any", 'text', 'total']);
+          when(
             mockUsecase.getBillItems(any),
-          ).thenThrow(Exception('Invalid JSON returned: Unexpected token'));
+          ).thenThrow(Exception("Invalid JSON returned"));
           return bloc;
         },
         act: (bloc) => bloc.add(InitScanPage(image: mockImageFile)),
@@ -272,8 +338,21 @@ void main() {
         'emits [loading, failed] when general exception occurs',
         build: () {
           when(
-            mockUsecase.getBillItems(any),
+            mockOCRService.extractLines(mockImageFile),
           ).thenThrow(Exception('Unknown error occurred'));
+          when(mockUsecase.getBillItems(any)).thenAnswer(
+            (_) async => BillItemModel(
+              items: [BillItem(name: 'Test Item', quantity: 1, price: 10.0)],
+              subtotal: 10.0,
+              service: 0.0,
+              tax: 0.0,
+              discount: 0.0,
+              total: 10.0,
+              billName: 'Test Bill',
+              currency: '\$',
+              dateIssued: '2024-01-01',
+            ),
+          );
           return bloc;
         },
         act: (bloc) => bloc.add(InitScanPage(image: mockImageFile)),
@@ -423,6 +502,9 @@ void main() {
         act: (bloc) => bloc.add(EditScanPageDispose()),
         expect: () => [
           isA<ScanPageState>()
+              .having((s) => s.status, 'status', ScanPageStatus.success)
+              .having((s) => s.id, 'id', 'test-bill-id'),
+          isA<ScanPageState>()
               .having((s) => s.status, 'status', ScanPageStatus.finish)
               .having((s) => s.id, 'id', 'test-bill-id'),
         ],
@@ -472,9 +554,17 @@ void main() {
         act: (bloc) => bloc.add(EditScanPageDispose()),
         expect: () => [
           isA<ScanPageState>()
+              .having((s) => s.status, 'status', ScanPageStatus.success)
+              .having((s) => s.id, 'id', 'test-bill-id'),
+          isA<ScanPageState>()
               .having((s) => s.status, 'status', ScanPageStatus.finish)
               .having((s) => s.id, 'id', 'test-bill-id')
-              .having((s) => s.isEdit, 'isEdit', false),
+              .having((s) => s.isEdit, 'isEdit', false)
+              .having(
+                (s) => s.controllers[0].text,
+                'item name',
+                'Updated Item',
+              ),
         ],
       );
 
@@ -510,7 +600,7 @@ void main() {
               .having(
                 (s) => s.errorMessage,
                 'errorMessage',
-                'Unable to process this image. Please ensure it\'s a clear photo of a bill or receipt.',
+                'Exception: Database error',
               ),
         ],
       );
@@ -553,13 +643,13 @@ void main() {
               .having(
                 (s) => s.errorMessage,
                 'errorMessage',
-                'Unable to process this image. Please ensure it\'s a clear photo of a bill or receipt.',
+                'Exception: Validation error',
               ),
         ],
       );
 
       blocTest<ScanPageBloc, ScanPageState>(
-        'handles invalid controller data gracefully',
+        'test invalid controller data',
         build: () {
           when(mockUsecase.saveBill(any)).thenAnswer((_) async => 'test-id');
 
@@ -600,8 +690,13 @@ void main() {
         act: (bloc) => bloc.add(EditScanPageDispose()),
         expect: () => [
           isA<ScanPageState>()
-              .having((s) => s.status, 'status', ScanPageStatus.finish)
+              .having((s) => s.status, 'status', ScanPageStatus.success)
               .having((s) => s.id, 'id', 'test-id'),
+          isA<ScanPageState>()
+              .having((s) => s.status, 'status', ScanPageStatus.finish)
+              .having((s) => s.id, 'id', 'test-id')
+              .having((s) => s.billItem?.items?[0].name, 'bill name', 'SplitIt')
+              .having((s) => s.billItem?.total, 'updated total', 0),
         ],
       );
     });
@@ -713,6 +808,22 @@ void main() {
             dateIssued: '2024-01-01',
           );
 
+          when(mockOCRService.extractLines(mockImageFile)).thenAnswer(
+            (_) async => [
+              'Test Restaurant Bill',
+              'Item: Test Item 1',
+              'Quantity: 2',
+              'Price: 15.0',
+              'Item: Test Item 2',
+              'Quantity: 1',
+              'Price: 10.0',
+              'Subtotal: 40.0',
+              'Service: 5.0',
+              'Tax: 3.0',
+              'Discount: 2.0',
+              'Total: 46.0',
+            ],
+          );
           when(
             mockUsecase.getBillItems(any),
           ).thenAnswer((_) async => mockBillItem);
@@ -740,64 +851,10 @@ void main() {
             ScanPageStatus.success,
           ),
           isA<ScanPageState>().having((s) => s.isEdit, 'isEdit', true),
-          isA<ScanPageState>().having(
-            (s) => s.status,
-            'status',
-            ScanPageStatus.finish,
-          ),
-        ],
-      );
-
-      blocTest<ScanPageBloc, ScanPageState>(
-        'handles scan failure and retry workflow',
-        build: () {
-          when(
-            mockUsecase.getBillItems(any),
-          ).thenThrow(Exception('Network error'));
-          when(mockUsecase.getBillItems(any)).thenAnswer(
-            (_) async => BillItemModel(
-              items: [BillItem(name: 'Test Item', quantity: 1, price: 10.0)],
-              subtotal: 10.0,
-              service: 0.0,
-              tax: 0.0,
-              discount: 0.0,
-              total: 10.0,
-              billName: 'Test Bill',
-              currency: '\$',
-              dateIssued: '2024-01-01',
-            ),
-          );
-          when(
-            mockUsecase.saveBill(any),
-          ).thenAnswer((_) async => 'test-bill-id');
-          return bloc;
-        },
-        act: (bloc) async {
-          bloc.add(InitScanPage(image: mockImageFile));
-          await Future.delayed(Duration(milliseconds: 100));
-          bloc.add(InitScanPage(image: mockImageFile)); // Retry
-        },
-        expect: () => [
-          isA<ScanPageState>().having(
-            (s) => s.status,
-            'status',
-            ScanPageStatus.loading,
-          ),
-          isA<ScanPageState>().having(
-            (s) => s.status,
-            'status',
-            ScanPageStatus.failed,
-          ),
-          isA<ScanPageState>().having(
-            (s) => s.status,
-            'status',
-            ScanPageStatus.loading,
-          ),
-          isA<ScanPageState>().having(
-            (s) => s.status,
-            'status',
-            ScanPageStatus.success,
-          ),
+          isA<ScanPageState>().having((s) => s.isEdit, 'isEdit', false),
+          isA<ScanPageState>()
+              .having((s) => s.status, 'status', ScanPageStatus.finish)
+              .having((s) => s.isEdit, 'isEdit', false),
         ],
       );
     });

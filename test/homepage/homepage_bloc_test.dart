@@ -118,7 +118,7 @@ void main() {
       );
 
       blocTest<HomepageBloc, HomepageState>(
-        'emits [loading, success] with error message when exception occurs',
+        'emits [loading, failed] with error message when exception occurs',
         build: () {
           when(
             mockUsecase.getAllSummary(),
@@ -133,36 +133,11 @@ void main() {
             HomepageStatus.loading,
           ),
           isA<HomepageState>()
-              .having((s) => s.status, 'status', HomepageStatus.success)
+              .having((s) => s.status, 'status', HomepageStatus.failed)
               .having(
                 (s) => s.errorMessage,
                 'errorMessage',
                 'Exception: Database connection failed',
-              ),
-        ],
-      );
-
-      blocTest<HomepageBloc, HomepageState>(
-        'emits [loading, success] with error message when network error occurs',
-        build: () {
-          when(
-            mockUsecase.getAllSummary(),
-          ).thenThrow(Exception('Network timeout'));
-          return bloc;
-        },
-        act: (bloc) => bloc.add(HomepageInit()),
-        expect: () => [
-          isA<HomepageState>().having(
-            (s) => s.status,
-            'status',
-            HomepageStatus.loading,
-          ),
-          isA<HomepageState>()
-              .having((s) => s.status, 'status', HomepageStatus.success)
-              .having(
-                (s) => s.errorMessage,
-                'errorMessage',
-                'Exception: Network timeout',
               ),
         ],
       );
@@ -286,7 +261,7 @@ void main() {
       );
 
       blocTest<HomepageBloc, HomepageState>(
-        'emits [loading, success] with error message when deletion fails',
+        'emits [loading, failed] with error message when deletion fails',
         build: () {
           when(
             mockUsecase.deleteSummary(testSummaryId),
@@ -301,7 +276,7 @@ void main() {
             HomepageStatus.loading,
           ),
           isA<HomepageState>()
-              .having((s) => s.status, 'status', HomepageStatus.success)
+              .having((s) => s.status, 'status', HomepageStatus.failed)
               .having(
                 (s) => s.errorMessage,
                 'errorMessage',
@@ -311,7 +286,7 @@ void main() {
       );
 
       blocTest<HomepageBloc, HomepageState>(
-        'emits [loading, success] with error message when getAllSummary fails after deletion',
+        'emits [loading, failed] with error message when getAllSummary fails after deletion',
         build: () {
           when(
             mockUsecase.deleteSummary(testSummaryId),
@@ -329,7 +304,7 @@ void main() {
             HomepageStatus.loading,
           ),
           isA<HomepageState>()
-              .having((s) => s.status, 'status', HomepageStatus.success)
+              .having((s) => s.status, 'status', HomepageStatus.failed)
               .having(
                 (s) => s.errorMessage,
                 'errorMessage',

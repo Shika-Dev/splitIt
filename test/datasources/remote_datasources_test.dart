@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:split_it/Data/Datasources/Remote/Responses/deepseek_response.dart';
 import 'package:split_it/Data/Datasources/Remote/remote_datasources.dart';
 import 'package:split_it/Data/Datasources/Remote/network/dio.dart';
@@ -14,9 +13,6 @@ void main() {
     setUpAll(() async {
       // Initialize Flutter test binding
       TestWidgetsFlutterBinding.ensureInitialized();
-
-      // Load test environment variables from .env.test file
-      await dotenv.load(fileName: '.env.test');
     });
 
     group('DeepseekResponse Parsing Tests', () {

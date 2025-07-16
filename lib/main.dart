@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:split_it/Core/App/app.dart';
 import 'package:split_it/Core/DI/bloc_module.dart';
+import 'package:split_it/Core/DI/core_module.dart';
 import 'package:split_it/Core/DI/domain_module.dart';
 import 'package:split_it/Core/DI/local_module.dart';
 import 'package:split_it/Core/DI/repository_module.dart';
@@ -32,6 +33,7 @@ void main() async {
   await Hive.openBox<SummaryEntity>('summaryBox');
 
   //Dependencies Injector
+  CoreModule.provide();
   RemoteModule.provide();
   LocalModule.provide();
   RepositoryModule.provide();

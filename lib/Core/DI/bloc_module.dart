@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:split_it/Core/Services/ocr_service.dart';
 import 'package:split_it/Domain/Usecases/homepage_usecase.dart';
 import 'package:split_it/Domain/Usecases/split_bill_usecase.dart';
 import 'package:split_it/Domain/Usecases/summary_usecase.dart';
@@ -13,7 +14,10 @@ class BlocModule {
     GetIt getIt = GetIt.instance;
 
     getIt.registerFactory<ScanPageBloc>(
-      () => ScanPageBloc(usecase: GetIt.instance<ScanBillUsecase>()),
+      () => ScanPageBloc(
+        usecase: GetIt.instance<ScanBillUsecase>(),
+        ocrService: GetIt.instance<OCRService>(),
+      ),
     );
 
     getIt.registerFactory<SplitBillBloc>(
