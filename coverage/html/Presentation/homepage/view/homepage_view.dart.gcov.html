@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-07-16 16:35:16</td>
+            <td class="headerValue">2025-07-21 14:01:15</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -76,68 +76,68 @@
 <span id="L14"><span class="lineNum">      14</span>              : import 'package:split_it/Resources/utils/size_config.dart';</span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
 <span id="L16"><span class="lineNum">      16</span>              : class HomePage extends StatelessWidget {</span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :   const HomePage({super.key});</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           2 :   const HomePage({super.key});</span></span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           2 :   @override</span></span>
 <span id="L20"><span class="lineNum">      20</span>              :   Widget build(BuildContext context) {</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :     return BlocProvider(</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           5 :       create: (context) =&gt; GetIt.I&lt;HomepageBloc&gt;()..add(HomepageInit()),</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :       child: HomePageView(),</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           2 :     return BlocProvider(</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">          10 :       create: (context) =&gt; GetIt.I&lt;HomepageBloc&gt;()..add(HomepageInit()),</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           2 :       child: HomePageView(),</span></span>
 <span id="L24"><span class="lineNum">      24</span>              :     );</span>
 <span id="L25"><span class="lineNum">      25</span>              :   }</span>
 <span id="L26"><span class="lineNum">      26</span>              : }</span>
 <span id="L27"><span class="lineNum">      27</span>              : </span>
 <span id="L28"><span class="lineNum">      28</span>              : class HomePageView extends StatelessWidget {</span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           1 :   const HomePageView({super.key});</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           2 :   const HomePageView({super.key});</span></span>
 <span id="L30"><span class="lineNum">      30</span>              : </span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           2 :   @override</span></span>
 <span id="L32"><span class="lineNum">      32</span>              :   Widget build(BuildContext context) {</span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           1 :     return Scaffold(</span></span>
-<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           1 :       body: Stack(</span></span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           1 :         children: [</span></span>
-<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           1 :           background(),</span></span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           1 :           SafeArea(</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           1 :             child: Padding(</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           2 :     return Scaffold(</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           2 :       body: Stack(</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :         children: [</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           2 :           background(),</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           2 :           SafeArea(</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           2 :             child: Padding(</span></span>
 <span id="L39"><span class="lineNum">      39</span>              :               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),</span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           1 :               child: Column(</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           2 :               child: Column(</span></span>
 <span id="L41"><span class="lineNum">      41</span>              :                 crossAxisAlignment: CrossAxisAlignment.start,</span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           1 :                 children: [</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           1 :                   Center(</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           1 :                     child: Image.asset(</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           2 :                 children: [</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           2 :                   Center(</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           2 :                     child: Image.asset(</span></span>
 <span id="L45"><span class="lineNum">      45</span>              :                       'assets/images/logo.png',</span>
 <span id="L46"><span class="lineNum">      46</span>              :                       fit: BoxFit.fitWidth,</span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           2 :                       width: SizeConfig.safeBlockHorizontal * 20,</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           4 :                       width: SizeConfig.safeBlockHorizontal * 20,</span></span>
 <span id="L48"><span class="lineNum">      48</span>              :                     ),</span>
 <span id="L49"><span class="lineNum">      49</span>              :                   ),</span>
-<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           1 :                   VerticalSeparator(height: 2),</span></span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           1 :                   Row(</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           2 :                   VerticalSeparator(height: 2),</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           2 :                   Row(</span></span>
 <span id="L52"><span class="lineNum">      52</span>              :                     mainAxisAlignment: MainAxisAlignment.end,</span>
-<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           1 :                     children: [</span></span>
-<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           1 :                       Image.asset(</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           2 :                     children: [</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           2 :                       Image.asset(</span></span>
 <span id="L55"><span class="lineNum">      55</span>              :                         'assets/images/ic_coin.png',</span>
 <span id="L56"><span class="lineNum">      56</span>              :                         fit: BoxFit.fitWidth,</span>
-<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           2 :                         width: SizeConfig.safeBlockHorizontal * 20,</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           4 :                         width: SizeConfig.safeBlockHorizontal * 20,</span></span>
 <span id="L58"><span class="lineNum">      58</span>              :                       ),</span>
 <span id="L59"><span class="lineNum">      59</span>              :                     ],</span>
 <span id="L60"><span class="lineNum">      60</span>              :                   ),</span>
-<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           1 :                   getScanCard(context),</span></span>
-<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           1 :                   VerticalSeparator(),</span></span>
-<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           1 :                   IntrinsicHeight(</span></span>
-<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           1 :                     child: Row(</span></span>
-<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           1 :                       children: [</span></span>
-<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           2 :                         Flexible(child: getScanManuallyCard()),</span></span>
-<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">           1 :                         HorizontalSeparator(width: 1),</span></span>
-<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">           2 :                         Flexible(child: getScanByVoiceCard()),</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           2 :                   getScanCard(context),</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           2 :                   VerticalSeparator(),</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           2 :                   IntrinsicHeight(</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           2 :                     child: Row(</span></span>
+<span id="L65"><span class="lineNum">      65</span> <span class="tlaGNC">           2 :                       children: [</span></span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           4 :                         Flexible(child: getScanManuallyCard()),</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">           2 :                         HorizontalSeparator(width: 1),</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">           4 :                         Flexible(child: getScanByVoiceCard()),</span></span>
 <span id="L69"><span class="lineNum">      69</span>              :                       ],</span>
 <span id="L70"><span class="lineNum">      70</span>              :                     ),</span>
 <span id="L71"><span class="lineNum">      71</span>              :                   ),</span>
-<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           1 :                   VerticalSeparator(height: 3),</span></span>
-<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           2 :                   Text('Histories', style: CustomTheme.bodyMedium),</span></span>
-<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">           1 :                   VerticalSeparator(height: 1),</span></span>
-<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">           1 :                   Expanded(</span></span>
-<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           1 :                     child: BlocBuilder&lt;HomepageBloc, HomepageState&gt;(</span></span>
-<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">           1 :                       builder: (context, state) {</span></span>
-<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">           2 :                         if (state.status == HomepageStatus.loading) {</span></span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">           2 :                   VerticalSeparator(height: 3),</span></span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           4 :                   Text('Histories', style: CustomTheme.bodyMedium),</span></span>
+<span id="L74"><span class="lineNum">      74</span> <span class="tlaGNC">           2 :                   VerticalSeparator(height: 1),</span></span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">           2 :                   Expanded(</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           2 :                     child: BlocBuilder&lt;HomepageBloc, HomepageState&gt;(</span></span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">           2 :                       builder: (context, state) {</span></span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">           4 :                         if (state.status == HomepageStatus.loading) {</span></span>
 <span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">           1 :                           return Center(</span></span>
 <span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">           1 :                             child: Column(</span></span>
 <span id="L81"><span class="lineNum">      81</span>              :                               mainAxisAlignment: MainAxisAlignment.center,</span>
@@ -152,7 +152,7 @@
 <span id="L90"><span class="lineNum">      90</span>              :                             ),</span>
 <span id="L91"><span class="lineNum">      91</span>              :                           );</span>
 <span id="L92"><span class="lineNum">      92</span>              :                         }</span>
-<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">           2 :                         if (state.status == HomepageStatus.failed) {</span></span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">           4 :                         if (state.status == HomepageStatus.failed) {</span></span>
 <span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">           1 :                           return Padding(</span></span>
 <span id="L95"><span class="lineNum">      95</span>              :                             padding: const EdgeInsets.all(16.0),</span>
 <span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">           1 :                             child: Column(</span></span>
@@ -174,7 +174,7 @@
 <span id="L112"><span class="lineNum">     112</span>              :                             ),</span>
 <span id="L113"><span class="lineNum">     113</span>              :                           );</span>
 <span id="L114"><span class="lineNum">     114</span>              :                         }</span>
-<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC">           1 :                         return ListView.separated(</span></span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC">           2 :                         return ListView.separated(</span></span>
 <span id="L116"><span class="lineNum">     116</span> <span class="tlaGNC">           1 :                           itemBuilder: (_, index) {</span></span>
 <span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">           2 :                             final summary = state.summaries[index];</span></span>
 <span id="L118"><span class="lineNum">     118</span> <span class="tlaGNC">           1 :                             return Dismissible(</span></span>
@@ -198,7 +198,7 @@
 <span id="L136"><span class="lineNum">     136</span>              :                           },</span>
 <span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :                           separatorBuilder: (_, __) =&gt;</span></span>
 <span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :                               VerticalSeparator(height: 2),</span></span>
-<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">           2 :                           itemCount: state.summaries.length,</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaGNC">           4 :                           itemCount: state.summaries.length,</span></span>
 <span id="L140"><span class="lineNum">     140</span>              :                         );</span>
 <span id="L141"><span class="lineNum">     141</span>              :                       },</span>
 <span id="L142"><span class="lineNum">     142</span>              :                     ),</span>
@@ -253,31 +253,31 @@
 <span id="L191"><span class="lineNum">     191</span>              :     );</span>
 <span id="L192"><span class="lineNum">     192</span>              :   }</span>
 <span id="L193"><span class="lineNum">     193</span>              : </span>
-<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">           1 :   CustomCard getScanByVoiceCard() {</span></span>
-<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">           1 :     return CustomCard(</span></span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">           1 :       children: [</span></span>
-<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">           1 :         Image.asset(</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaGNC">           2 :   CustomCard getScanByVoiceCard() {</span></span>
+<span id="L195"><span class="lineNum">     195</span> <span class="tlaGNC">           2 :     return CustomCard(</span></span>
+<span id="L196"><span class="lineNum">     196</span> <span class="tlaGNC">           2 :       children: [</span></span>
+<span id="L197"><span class="lineNum">     197</span> <span class="tlaGNC">           2 :         Image.asset(</span></span>
 <span id="L198"><span class="lineNum">     198</span>              :           'assets/images/ic_mic.png',</span>
 <span id="L199"><span class="lineNum">     199</span>              :           fit: BoxFit.fitWidth,</span>
-<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">           2 :           width: SizeConfig.safeBlockHorizontal * 5,</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaGNC">           4 :           width: SizeConfig.safeBlockHorizontal * 5,</span></span>
 <span id="L201"><span class="lineNum">     201</span>              :         ),</span>
-<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">           1 :         HorizontalSeparator(width: 2),</span></span>
-<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">           1 :         Expanded(</span></span>
-<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">           1 :           child: Column(</span></span>
+<span id="L202"><span class="lineNum">     202</span> <span class="tlaGNC">           2 :         HorizontalSeparator(width: 2),</span></span>
+<span id="L203"><span class="lineNum">     203</span> <span class="tlaGNC">           2 :         Expanded(</span></span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaGNC">           2 :           child: Column(</span></span>
 <span id="L205"><span class="lineNum">     205</span>              :             crossAxisAlignment: CrossAxisAlignment.start,</span>
 <span id="L206"><span class="lineNum">     206</span>              :             mainAxisAlignment: MainAxisAlignment.center,</span>
 <span id="L207"><span class="lineNum">     207</span>              :             mainAxisSize: MainAxisSize.min,</span>
-<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">           1 :             children: [</span></span>
-<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">           1 :               Text(</span></span>
+<span id="L208"><span class="lineNum">     208</span> <span class="tlaGNC">           2 :             children: [</span></span>
+<span id="L209"><span class="lineNum">     209</span> <span class="tlaGNC">           2 :               Text(</span></span>
 <span id="L210"><span class="lineNum">     210</span>              :                 'Split by Voice',</span>
-<span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">           2 :                 style: CustomTheme.bodySmall.copyWith(</span></span>
+<span id="L211"><span class="lineNum">     211</span> <span class="tlaGNC">           4 :                 style: CustomTheme.bodySmall.copyWith(</span></span>
 <span id="L212"><span class="lineNum">     212</span>              :                   color: CustomTheme.textColor,</span>
 <span id="L213"><span class="lineNum">     213</span>              :                 ),</span>
 <span id="L214"><span class="lineNum">     214</span>              :               ),</span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">           1 :               Text(</span></span>
+<span id="L215"><span class="lineNum">     215</span> <span class="tlaGNC">           2 :               Text(</span></span>
 <span id="L216"><span class="lineNum">     216</span>              :                 'Split it using your voice',</span>
-<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">           2 :                 style: CustomTheme.captionLarge.copyWith(</span></span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">           1 :                   color: CustomTheme.textColor.withValues(alpha: 0.5),</span></span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaGNC">           4 :                 style: CustomTheme.captionLarge.copyWith(</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaGNC">           2 :                   color: CustomTheme.textColor.withValues(alpha: 0.5),</span></span>
 <span id="L219"><span class="lineNum">     219</span>              :                 ),</span>
 <span id="L220"><span class="lineNum">     220</span>              :                 softWrap: true,</span>
 <span id="L221"><span class="lineNum">     221</span>              :                 overflow: TextOverflow.visible,</span>
@@ -289,29 +289,29 @@
 <span id="L227"><span class="lineNum">     227</span>              :     );</span>
 <span id="L228"><span class="lineNum">     228</span>              :   }</span>
 <span id="L229"><span class="lineNum">     229</span>              : </span>
-<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           1 :   CustomCard getScanManuallyCard() {</span></span>
-<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">           1 :     return CustomCard(</span></span>
-<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">           1 :       children: [</span></span>
-<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">           1 :         Image.asset(</span></span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           2 :   CustomCard getScanManuallyCard() {</span></span>
+<span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">           2 :     return CustomCard(</span></span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">           2 :       children: [</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaGNC">           2 :         Image.asset(</span></span>
 <span id="L234"><span class="lineNum">     234</span>              :           'assets/images/ic_ball.png',</span>
 <span id="L235"><span class="lineNum">     235</span>              :           fit: BoxFit.fitWidth,</span>
-<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">           2 :           width: SizeConfig.safeBlockHorizontal * 5,</span></span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">           4 :           width: SizeConfig.safeBlockHorizontal * 5,</span></span>
 <span id="L237"><span class="lineNum">     237</span>              :         ),</span>
-<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC">           1 :         HorizontalSeparator(width: 2),</span></span>
-<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">           1 :         Column(</span></span>
+<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC">           2 :         HorizontalSeparator(width: 2),</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">           2 :         Column(</span></span>
 <span id="L240"><span class="lineNum">     240</span>              :           crossAxisAlignment: CrossAxisAlignment.start,</span>
 <span id="L241"><span class="lineNum">     241</span>              :           mainAxisAlignment: MainAxisAlignment.center,</span>
-<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC">           1 :           children: [</span></span>
-<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">           1 :             Text(</span></span>
+<span id="L242"><span class="lineNum">     242</span> <span class="tlaGNC">           2 :           children: [</span></span>
+<span id="L243"><span class="lineNum">     243</span> <span class="tlaGNC">           2 :             Text(</span></span>
 <span id="L244"><span class="lineNum">     244</span>              :               'Split Manually',</span>
-<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">           2 :               style: CustomTheme.bodySmall.copyWith(</span></span>
+<span id="L245"><span class="lineNum">     245</span> <span class="tlaGNC">           4 :               style: CustomTheme.bodySmall.copyWith(</span></span>
 <span id="L246"><span class="lineNum">     246</span>              :                 color: CustomTheme.textColor,</span>
 <span id="L247"><span class="lineNum">     247</span>              :               ),</span>
 <span id="L248"><span class="lineNum">     248</span>              :             ),</span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">           1 :             Text(</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaGNC">           2 :             Text(</span></span>
 <span id="L250"><span class="lineNum">     250</span>              :               'Without OCR',</span>
-<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">           2 :               style: CustomTheme.captionLarge.copyWith(</span></span>
-<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">           1 :                 color: CustomTheme.textColor.withValues(alpha: 0.5),</span></span>
+<span id="L251"><span class="lineNum">     251</span> <span class="tlaGNC">           4 :               style: CustomTheme.captionLarge.copyWith(</span></span>
+<span id="L252"><span class="lineNum">     252</span> <span class="tlaGNC">           2 :                 color: CustomTheme.textColor.withValues(alpha: 0.5),</span></span>
 <span id="L253"><span class="lineNum">     253</span>              :               ),</span>
 <span id="L254"><span class="lineNum">     254</span>              :             ),</span>
 <span id="L255"><span class="lineNum">     255</span>              :           ],</span>
@@ -320,8 +320,8 @@
 <span id="L258"><span class="lineNum">     258</span>              :     );</span>
 <span id="L259"><span class="lineNum">     259</span>              :   }</span>
 <span id="L260"><span class="lineNum">     260</span>              : </span>
-<span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">           1 :   Image background() {</span></span>
-<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">           1 :     return Image.asset(</span></span>
+<span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">           2 :   Image background() {</span></span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">           2 :     return Image.asset(</span></span>
 <span id="L263"><span class="lineNum">     263</span>              :       'assets/background/bg.png',</span>
 <span id="L264"><span class="lineNum">     264</span>              :       fit: BoxFit.cover,</span>
 <span id="L265"><span class="lineNum">     265</span>              :       width: SizeConfig.screenWidth,</span>
@@ -329,8 +329,8 @@
 <span id="L267"><span class="lineNum">     267</span>              :     );</span>
 <span id="L268"><span class="lineNum">     268</span>              :   }</span>
 <span id="L269"><span class="lineNum">     269</span>              : </span>
-<span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">           1 :   CustomCard getScanCard(BuildContext context) {</span></span>
-<span id="L271"><span class="lineNum">     271</span> <span class="tlaGNC">           1 :     return CustomCard(</span></span>
+<span id="L270"><span class="lineNum">     270</span> <span class="tlaGNC">           2 :   CustomCard getScanCard(BuildContext context) {</span></span>
+<span id="L271"><span class="lineNum">     271</span> <span class="tlaGNC">           2 :     return CustomCard(</span></span>
 <span id="L272"><span class="lineNum">     272</span>              :       withBorder: true,</span>
 <span id="L273"><span class="lineNum">     273</span> <span class="tlaGNC">           1 :       onTap: () {</span></span>
 <span id="L274"><span class="lineNum">     274</span> <span class="tlaGNC">           1 :         showModalBottomSheet(</span></span>
@@ -342,35 +342,35 @@
 <span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">           2 :           builder: (_) =&gt; getScanSheet(context),</span></span>
 <span id="L281"><span class="lineNum">     281</span>              :         );</span>
 <span id="L282"><span class="lineNum">     282</span>              :       },</span>
-<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">           1 :       children: [</span></span>
-<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           1 :         Image.asset(</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">           2 :       children: [</span></span>
+<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           2 :         Image.asset(</span></span>
 <span id="L285"><span class="lineNum">     285</span>              :           'assets/images/ic_bill.png',</span>
 <span id="L286"><span class="lineNum">     286</span>              :           fit: BoxFit.fitWidth,</span>
-<span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">           2 :           width: SizeConfig.safeBlockHorizontal * 10,</span></span>
+<span id="L287"><span class="lineNum">     287</span> <span class="tlaGNC">           4 :           width: SizeConfig.safeBlockHorizontal * 10,</span></span>
 <span id="L288"><span class="lineNum">     288</span>              :         ),</span>
-<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">           1 :         HorizontalSeparator(width: 3),</span></span>
-<span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           1 :         Column(</span></span>
+<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">           2 :         HorizontalSeparator(width: 3),</span></span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           2 :         Column(</span></span>
 <span id="L291"><span class="lineNum">     291</span>              :           crossAxisAlignment: CrossAxisAlignment.start,</span>
-<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">           1 :           children: [</span></span>
-<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC">           1 :             Text(</span></span>
+<span id="L292"><span class="lineNum">     292</span> <span class="tlaGNC">           2 :           children: [</span></span>
+<span id="L293"><span class="lineNum">     293</span> <span class="tlaGNC">           2 :             Text(</span></span>
 <span id="L294"><span class="lineNum">     294</span>              :               'Scan your bill',</span>
-<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC">           2 :               style: CustomTheme.bodyMedium.copyWith(</span></span>
+<span id="L295"><span class="lineNum">     295</span> <span class="tlaGNC">           4 :               style: CustomTheme.bodyMedium.copyWith(</span></span>
 <span id="L296"><span class="lineNum">     296</span>              :                 color: CustomTheme.textColor,</span>
 <span id="L297"><span class="lineNum">     297</span>              :               ),</span>
 <span id="L298"><span class="lineNum">     298</span>              :             ),</span>
-<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">           1 :             Text(</span></span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">           2 :             Text(</span></span>
 <span id="L300"><span class="lineNum">     300</span>              :               'and split it fast ⚡',</span>
-<span id="L301"><span class="lineNum">     301</span> <span class="tlaGNC">           2 :               style: CustomTheme.bodySmall.copyWith(</span></span>
-<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">           1 :                 color: CustomTheme.textColor.withValues(alpha: 0.5),</span></span>
+<span id="L301"><span class="lineNum">     301</span> <span class="tlaGNC">           4 :               style: CustomTheme.bodySmall.copyWith(</span></span>
+<span id="L302"><span class="lineNum">     302</span> <span class="tlaGNC">           2 :                 color: CustomTheme.textColor.withValues(alpha: 0.5),</span></span>
 <span id="L303"><span class="lineNum">     303</span>              :               ),</span>
 <span id="L304"><span class="lineNum">     304</span>              :             ),</span>
 <span id="L305"><span class="lineNum">     305</span>              :           ],</span>
 <span id="L306"><span class="lineNum">     306</span>              :         ),</span>
-<span id="L307"><span class="lineNum">     307</span> <span class="tlaGNC">           1 :         Spacer(),</span></span>
-<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">           1 :         Image.asset(</span></span>
+<span id="L307"><span class="lineNum">     307</span> <span class="tlaGNC">           2 :         Spacer(),</span></span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">           2 :         Image.asset(</span></span>
 <span id="L309"><span class="lineNum">     309</span>              :           'assets/images/ic_arrow.png',</span>
 <span id="L310"><span class="lineNum">     310</span>              :           fit: BoxFit.fitWidth,</span>
-<span id="L311"><span class="lineNum">     311</span> <span class="tlaGNC">           2 :           width: SizeConfig.safeBlockHorizontal * 5,</span></span>
+<span id="L311"><span class="lineNum">     311</span> <span class="tlaGNC">           4 :           width: SizeConfig.safeBlockHorizontal * 5,</span></span>
 <span id="L312"><span class="lineNum">     312</span>              :         ),</span>
 <span id="L313"><span class="lineNum">     313</span>              :       ],</span>
 <span id="L314"><span class="lineNum">     314</span>              :     );</span>

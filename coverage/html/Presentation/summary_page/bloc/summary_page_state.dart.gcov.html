@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntryMed">87.5&nbsp;%</td>
             <td class="headerCovTableEntry">8</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">7</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-07-16 16:35:16</td>
+            <td class="headerValue">2025-07-21 14:01:15</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -65,7 +65,7 @@
 <span id="L3"><span class="lineNum">       3</span>              : enum SummaryPageStatus { initial, loading, failed, success, finish }</span>
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : class SummaryPageState extends Equatable {</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC">           0 :   const SummaryPageState({</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">           1 :   const SummaryPageState({</span></span>
 <span id="L7"><span class="lineNum">       7</span>              :     this.status = SummaryPageStatus.initial,</span>
 <span id="L8"><span class="lineNum">       8</span>              :     this.model,</span>
 <span id="L9"><span class="lineNum">       9</span>              :     this.errorMessage,</span>
@@ -75,18 +75,18 @@
 <span id="L13"><span class="lineNum">      13</span>              :   final String? errorMessage;</span>
 <span id="L14"><span class="lineNum">      14</span>              :   final SummaryModel? model;</span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :   SummaryPageState copyWith({</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :   SummaryPageState copyWith({</span></span>
 <span id="L17"><span class="lineNum">      17</span>              :     SummaryPageStatus? status,</span>
 <span id="L18"><span class="lineNum">      18</span>              :     SummaryModel? model,</span>
 <span id="L19"><span class="lineNum">      19</span>              :     String? errorMessage,</span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   }) =&gt; SummaryPageState(</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           1 :   }) =&gt; SummaryPageState(</span></span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :     status: status ?? this.status,</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     model: model ?? this.model,</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :     errorMessage: errorMessage ?? this.errorMessage,</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :     model: model ?? this.model,</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :     errorMessage: errorMessage ?? this.errorMessage,</span></span>
 <span id="L24"><span class="lineNum">      24</span>              :   );</span>
 <span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   @override</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :   List&lt;Object?&gt; get props =&gt; [status, model, errorMessage];</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           4 :   List&lt;Object?&gt; get props =&gt; [status, model, errorMessage];</span></span>
 <span id="L28"><span class="lineNum">      28</span>              : }</span>
         </pre>
               </td>
