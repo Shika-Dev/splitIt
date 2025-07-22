@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,10 +20,16 @@ class MockSummaryPageBloc extends MockBloc<SummaryPageEvent, SummaryPageState>
 
 class MockHomepageUsecase extends Mock implements HomepageUsecase {}
 
+class FakeSummaryPageDispose extends Fake implements SummaryPageDispose {}
+
 void main() {
   late MockSummaryPageBloc mockBloc;
   late MockHomepageUsecase mockHomePageUsecase;
   late GetIt getIt;
+
+  setUpAll(() {
+    registerFallbackValue(FakeSummaryPageDispose());
+  });
   group('Summary Page View Test Using Mock Bloc', () {
     setUp(() {
       mockBloc = MockSummaryPageBloc();
@@ -147,6 +155,45 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(HomePage), findsOneWidget);
+    });
+
+    testWidgets('navigates to HomePage when back button is tapped', (
+      WidgetTester tester,
+    ) async {
+      final user = UserModel(id: "me", name: "Alice", image: "");
+      final item = SummaryItemModel(
+        userId: "me",
+        totalOwned: 1,
+        items: ["Rice"],
+      );
+      final model = SummaryModel(
+        id: "summaryId",
+        billName: "Shope",
+        userList: [user],
+        summaryList: [item],
+        currency: "\$",
+        dateIssued: "08/09/20025",
+      );
+
+      final successState = SummaryPageState(
+        status: SummaryPageStatus.success,
+        model: model,
+      );
+
+      whenListen(
+        mockBloc,
+        Stream<SummaryPageState>.fromIterable([successState]),
+        initialState: successState,
+      );
+
+      await tester.pumpWidget(createTestWidget());
+      await tester.pump();
+
+      await tester.tap(find.byIcon(Icons.arrow_back));
+      await tester.pumpAndSettle();
+      verify(
+        () => mockBloc.add(any(that: isA<SummaryPageDispose>())),
+      ).called(1);
     });
   });
 }
