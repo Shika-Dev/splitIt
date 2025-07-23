@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 import 'package:split_it/Data/Datasources/Remote/Responses/deepseek_response.dart';
 import 'package:split_it/Data/Datasources/Remote/network/dio.dart';
 
@@ -27,7 +26,7 @@ class RemoteDatasources {
     };
 
     try {
-      final response = await GetIt.I<NetworkCall>().post(
+      final response = await networkCall.post(
         '',
         data: jsonEncode(payload),
       );
