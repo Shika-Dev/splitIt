@@ -10,9 +10,6 @@ sealed class SummaryPageEvent extends Equatable {
 class SummaryPageInitial extends SummaryPageEvent {
   final String id;
   const SummaryPageInitial({required this.id});
-
-  @override
-  List<Object> get props => [id];
 }
 
 class SummaryPageDispose extends SummaryPageEvent {}

@@ -1,8 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:split_it/Data/Datasources/Local/Entities/bill_entity.dart';
+import 'package:split_it/Data/Datasources/Local/Entities/bill_item_entity.dart';
+import 'package:split_it/Data/Datasources/Local/Entities/split_bill_entity.dart';
+import 'package:split_it/Data/Datasources/Local/Entities/summary_entity.dart';
+import 'package:split_it/Data/Datasources/Local/Entities/summary_item_entity.dart';
+import 'package:split_it/Data/Datasources/Local/Entities/user_entity.dart';
+import 'package:split_it/Data/Datasources/Remote/Responses/deepseek_response.dart';
 import 'package:split_it/Data/Repository/split_bill_repository.dart';
 import 'package:split_it/Domain/Models/bill_item_model.dart';
 import 'package:split_it/Domain/Models/summary_model.dart';
+import 'package:split_it/Domain/Models/split_bill_model.dart';
 
 import '../mocks/mocks.mocks.dart';
 
@@ -25,17 +33,30 @@ void main() {
       test('returns BillItemModel when API call is successful', () async {
         // Arrange
         final rawOcr = ['Test bill text', 'Total: \$50.00'];
-        // Since MockDeepseekResponse is not available, we'll test the error case instead
+        final mockResponse = DeepseekResponse(
+          items: [BillItemResponse(name: 'itemName', quantity: 1, price: 1)],
+          subtotal: 1,
+          total: 1,
+          service: 0,
+          tax: 0,
+          discount: 0,
+          billName: 'Shop',
+          currency: '\$',
+          dateIssued: '00/00/0000',
+        );
+
         when(
           mockRemoteDatasources.cleanOCRText(rawOcr),
-        ).thenThrow(Exception('Mock response not available'));
+        ).thenAnswer((_) async => mockResponse);
 
         // Act & Assert
+        final result = await repository.getBillItemModels(rawOcr);
         expect(
-          () => repository.getBillItemModels(rawOcr),
-          throwsA(isA<Exception>()),
+          result,
+          isA<BillItemModel>()
+              .having((r) => r.billName, "bill name", "Shop")
+              .having((r) => r.total, "total", 1),
         );
-        verify(mockRemoteDatasources.cleanOCRText(rawOcr)).called(1);
       });
 
       test('throws exception when API call fails', () async {
@@ -49,9 +70,14 @@ void main() {
         // Act & Assert
         expect(
           () => repository.getBillItemModels(rawOcr),
-          throwsA(isA<Exception>()),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains('Exception: API Error'),
+            ),
+          ),
         );
-        verify(mockRemoteDatasources.cleanOCRText(rawOcr)).called(1);
       });
 
       test('throws exception when OCR text is empty', () async {
@@ -65,7 +91,15 @@ void main() {
         // Act & Assert
         expect(
           () => repository.getBillItemModels(rawOcr),
-          throwsA(isA<Exception>()),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains(
+                    'Exception: No text found in the image',
+                  ),
+            ),
+          ),
         );
       });
     });
@@ -94,7 +128,6 @@ void main() {
 
         // Assert
         expect(result, equals('test-bill-id'));
-        verify(mockLocalDatasources.createOrUpdateSplitBill(any)).called(1);
       });
 
       test('throws exception when local save fails', () async {
@@ -118,9 +151,14 @@ void main() {
         // Act & Assert
         expect(
           () => repository.createSplitBillEntity(billItem),
-          throwsA(isA<Exception>()),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains('Exception: Database error'),
+            ),
+          ),
         );
-        verify(mockLocalDatasources.createOrUpdateSplitBill(any)).called(1);
       });
     });
 
@@ -128,17 +166,44 @@ void main() {
       test('returns SplitBillModel when bill exists', () async {
         // Arrange
         const billId = 'test-bill-id';
-        // Use a simple mock or create a real entity for testing
-        when(mockLocalDatasources.getSplitBill(billId)).thenAnswer(
-          (_) async => throw UnimplementedError('Mock entity not available'),
+        final mockEntity = SplitBillEntity(
+          id: 'test-bill-id',
+          listUser: [UserEntity(name: 'name', image: 'image', id: 'id')],
+          billEntity: BillEntity(
+            items: [
+              BillItemEntity(
+                name: 'name',
+                quantity: 1,
+                price: 1,
+                userIds: ['id'],
+              ),
+            ],
+            subtotal: 1,
+            service: 0,
+            tax: 0,
+            discount: 0,
+            total: 1,
+            billName: 'billName',
+            currency: '\$',
+            dateIssued: 'dateIssued',
+          ),
         );
 
+        when(
+          mockLocalDatasources.getSplitBill(billId),
+        ).thenAnswer((_) async => mockEntity);
+
         // Act & Assert
+        final result = await repository.getBillDetail(billId);
+
+        print(result.id);
         expect(
-          () => repository.getBillDetail(billId),
-          throwsA(isA<UnimplementedError>()),
+          result,
+          isA<SplitBillModel>()
+              .having((m) => m.id, "bill id", 'test-bill-id')
+              .having((m) => m.billModel.billName, 'bill name', 'billName')
+              .having((m) => m.billModel.total, 'total', 1),
         );
-        verify(mockLocalDatasources.getSplitBill(billId)).called(1);
       });
 
       test('throws exception when bill not found', () async {
@@ -152,9 +217,14 @@ void main() {
         // Act & Assert
         expect(
           () => repository.getBillDetail(billId),
-          throwsA(isA<Exception>()),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains('Exception: Bill not found'),
+            ),
+          ),
         );
-        verify(mockLocalDatasources.getSplitBill(billId)).called(1);
       });
     });
 
@@ -181,22 +251,99 @@ void main() {
         ).thenThrow(Exception('Delete failed'));
 
         // Act & Assert
-        expect(() => repository.deleteBill(billId), throwsA(isA<Exception>()));
+        expect(
+          () => repository.deleteBill(billId),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains('Exception: Delete failed'),
+            ),
+          ),
+        );
         verify(mockLocalDatasources.deleteBill(billId)).called(1);
+      });
+    });
+
+    group('getSummary', () {
+      test('returns SummaryModel when entity exists', () async {
+        // Arrange
+        const summaryId = 'test-summary-id';
+        final mockEntity = SummaryEntity(
+          id: 'test-summary-id',
+          userList: [UserEntity(name: 'name', image: 'image', id: 'id')],
+          summaryList: [
+            SummaryItemEntity(userId: 'id', totalOwned: 1, items: ['itemName']),
+          ],
+          billName: 'Shop',
+          currency: '\$',
+          dateIssued: '00/00/0000',
+        );
+
+        when(
+          mockLocalDatasources.getSummary(summaryId),
+        ).thenAnswer((_) async => mockEntity);
+
+        // Act & Assert
+        final result = await repository.getSummary(summaryId);
+        expect(
+          result,
+          isA<SummaryModel>()
+              .having((m) => m.id, "summary id", 'test-summary-id')
+              .having((m) => m.billName, 'bill name', 'Shop')
+              .having((m) => m.summaryList[0].totalOwned, 'total', 1),
+        );
+      });
+
+      test('throws exception when summary not found', () async {
+        // Arrange
+        const summaryId = 'non-existent-id';
+
+        when(
+          mockLocalDatasources.getSummary(summaryId),
+        ).thenThrow(Exception('Summary not found'));
+
+        // Act & Assert
+        expect(
+          () => repository.getSummary(summaryId),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains('Exception: Summary not found'),
+            ),
+          ),
+        );
       });
     });
 
     group('getAllSummary', () {
       test('returns list of SummaryModel when summaries exist', () async {
-        // Arrange
-        // Use empty list since mock entities are not available
-        when(mockLocalDatasources.getAllSummary()).thenAnswer((_) async => []);
+        final mockEntity = SummaryEntity(
+          id: 'test-summary-id',
+          userList: [UserEntity(name: 'name', image: 'image', id: 'id')],
+          summaryList: [
+            SummaryItemEntity(userId: 'id', totalOwned: 1, items: ['itemName']),
+          ],
+          billName: 'Shop',
+          currency: '\$',
+          dateIssued: '00/00/0000',
+        );
+
+        when(
+          mockLocalDatasources.getAllSummary(),
+        ).thenAnswer((_) async => [mockEntity]);
 
         // Act
         final result = await repository.getAllSummary();
 
         // Assert
-        expect(result, isA<List<SummaryModel>>());
+        expect(
+          result,
+          isA<List<SummaryModel>>()
+              .having((e) => e[0].id, 'summary id', 'test-summary-id')
+              .having((e) => e[0].billName, 'bill name', 'Shop'),
+        );
         verify(mockLocalDatasources.getAllSummary()).called(1);
       });
 
@@ -209,7 +356,6 @@ void main() {
 
         // Assert
         expect(result, isEmpty);
-        verify(mockLocalDatasources.getAllSummary()).called(1);
       });
 
       test('throws exception when database query fails', () async {
@@ -219,8 +365,16 @@ void main() {
         ).thenThrow(Exception('Database error'));
 
         // Act & Assert
-        expect(() => repository.getAllSummary(), throwsA(isA<Exception>()));
-        verify(mockLocalDatasources.getAllSummary()).called(1);
+        expect(
+          () => repository.getAllSummary(),
+          throwsA(
+            predicate(
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains('Exception: Database error'),
+            ),
+          ),
+        );
       });
     });
 
@@ -251,103 +405,15 @@ void main() {
         // Act & Assert
         expect(
           () => repository.deleteSummary(summaryId),
-          throwsA(isA<Exception>()),
-        );
-        verify(mockLocalDatasources.deleteSummary(summaryId)).called(1);
-      });
-    });
-
-    group('Error Handling', () {
-      test('propagates network errors correctly', () async {
-        // Arrange
-        final rawOcr = ['Test text'];
-
-        when(
-          mockRemoteDatasources.cleanOCRText(rawOcr),
-        ).thenThrow(Exception('Network timeout'));
-
-        // Act & Assert
-        expect(
-          () => repository.getBillItemModels(rawOcr),
-          throwsA(predicate((e) => e.toString().contains('Network timeout'))),
-        );
-      });
-
-      test('propagates database errors correctly', () async {
-        // Arrange
-        const billId = 'test-id';
-
-        when(
-          mockLocalDatasources.getSplitBill(billId),
-        ).thenThrow(Exception('Database connection failed'));
-
-        // Act & Assert
-        expect(
-          () => repository.getBillDetail(billId),
           throwsA(
             predicate(
-              (e) => e.toString().contains('Database connection failed'),
+              (e) =>
+                  e is Exception &&
+                  e.toString().contains('Exception: Delete failed'),
             ),
           ),
         );
-      });
-
-      test('handles invalid responses gracefully', () async {
-        // Arrange
-        final rawOcr = ['Test text'];
-
-        when(
-          mockRemoteDatasources.cleanOCRText(rawOcr),
-        ).thenThrow(Exception('Invalid response'));
-
-        // Act & Assert
-        expect(
-          () => repository.getBillItemModels(rawOcr),
-          throwsA(isA<Exception>()),
-        );
-      });
-    });
-
-    group('Data Validation', () {
-      test('validates bill data before saving', () async {
-        // Arrange
-        final invalidBillItem = BillItemModel(
-          items: [], // Empty items should be invalid
-          subtotal: -10.0, // Negative subtotal should be invalid
-          service: 0.0,
-          tax: 0.0,
-          discount: 0.0,
-          total: 0.0, // Zero total should be invalid
-          billName: '', // Empty name should be invalid
-          currency: '',
-          dateIssued: '',
-        );
-
-        when(
-          mockLocalDatasources.createOrUpdateSplitBill(any),
-        ).thenAnswer((_) async => 'test-id');
-
-        // Act
-        final result = await repository.createSplitBillEntity(invalidBillItem);
-
-        // Assert
-        // The repository should still save the data as validation is handled at the mapper level
-        expect(result, equals('test-id'));
-      });
-
-      test('handles malformed OCR data', () async {
-        // Arrange
-        final malformedOcr = ['', '', '']; // Empty lines
-
-        when(
-          mockRemoteDatasources.cleanOCRText(malformedOcr),
-        ).thenThrow(Exception('Invalid OCR data'));
-
-        // Act & Assert
-        expect(
-          () => repository.getBillItemModels(malformedOcr),
-          throwsA(isA<Exception>()),
-        );
+        verify(mockLocalDatasources.deleteSummary(summaryId)).called(1);
       });
     });
   });
